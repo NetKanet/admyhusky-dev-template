@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Running Records - Net</title>
+    <link rel="icon" href="https://fav.farm/🏃">
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;700&family=Gochi+Hand&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0; 
+            padding: 0; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            min-height: 100vh; 
+            background-color: #f8f8f8; 
+            font-family: 'Chakra Petch', sans-serif;
+            position: relative; 
+            overflow-x: hidden;
+            padding: 20px;
+        }
+
+        /* Grid Background dots */
+        body::before {
+            content: ""; 
+            position: absolute; 
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: radial-gradient(#ddd 1.5px, transparent 1.5px);
+            background-size: 25px 25px; 
+            z-index: -1;
+        }
+
+        .container {
+            width: 100%; 
+            max-width: 500px; /* คุมความกว้างสูงสุด */
+            padding: clamp(1.5rem, 5vw, 2.5rem); 
+            background: #fff;
+            border: 5px solid #000; 
+            box-shadow: 12px 12px 0px #000; 
+            border-radius: 25px;
+            text-align: center;
+            transform: rotate(0.5deg); /* เอียงนิดๆ ให้ดูเหมือนงานวาดมือ */
+        }
+
+        h1 { 
+            font-family: 'Gochi Hand', cursive; 
+            font-size: clamp(2rem, 8vw, 2.8rem); 
+            margin-bottom: 1.5rem; 
+            margin-top: 0;
+        }
+        
+        /* สไตล์ปุ่มรวบรวมลิงก์วิ่งแบบ Responsive */
+        .run-item {
+            display: block; 
+            text-decoration: none; 
+            color: #000;
+            background: #fff; 
+            border: 3px solid #000; 
+            border-radius: 15px;
+            padding: 18px 15px; 
+            margin-bottom: 15px; 
+            font-weight: 700;
+            font-size: clamp(0.9rem, 3.5vw, 1.1rem);
+            transition: 0.2s; 
+            box-shadow: 5px 5px 0px #000;
+            line-height: 1.4;
+        }
+
+        .run-item:hover {
+            background: #ffcc00; 
+            transform: translate(-3px, -3px);
+            box-shadow: 8px 8px 0px #000;
+        }
+
+        .back-btn {
+            display: inline-block; 
+            margin-top: 25px; 
+            color: #000; 
+            text-decoration: none; 
+            font-size: 1rem;
+            font-weight: 700;
+            padding: 5px 10px;
+            border-bottom: 2px solid transparent;
+            transition: 0.2s;
+        }
+
+        .back-btn:hover { 
+            border-bottom: 2px solid #000;
+            background: #eee;
+            border-radius: 5px;
+        }
+
+        /* ปรับแต่งสำหรับหน้าจอมือถือเล็กๆ */
+        @media (max-width: 480px) {
+            .container {
+                padding: 1.2rem;
+                transform: rotate(0); /* เอาเอียงออกเพื่อให้อ่านง่ายขึ้นในมือถือ */
+            }
+            .run-item {
+                padding: 15px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🏃 My Records</h1>
+        
+        <a href="https://eslip.primeworks.asia/?r=b424x2v224039494&fbclid=IwY2xjawP7BKlleHRuA2FlbQIxMABicmlkETFaOHpWbXV6Vzc3M1pYSElFc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHlvobREVAyys9ENsOJr79hH36ez5ImsU7U03c_V5ItFgkz3UDNFnb-C9My0z_aem_9HjGEvbPGVbxuL7jiUY0Aw" 
+           target="_blank" 
+           rel="noopener noreferrer" 
+           class="run-item">
+            🏆 TCP - SPONSOR RUN : <br> RUN TO REFRESH (10K)
+        </a>
+
+        <a href="index.html" class="back-btn">← Back to Profile</a>
+    </div>
+
+</body>
+</html>
