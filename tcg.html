@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TCG Collection - Net</title>
+    <link rel="icon" href="https://fav.farm/🃏">
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;700&family=Gochi+Hand&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0; 
+            padding: 0; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            min-height: 100vh; 
+            background-color: #f8f8f8; 
+            font-family: 'Chakra Petch', sans-serif;
+            position: relative; 
+            overflow-x: hidden;
+            padding: 20px;
+        }
+
+        /* Grid Background dots */
+        body::before {
+            content: ""; 
+            position: absolute; 
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: radial-gradient(#ddd 1.5px, transparent 1.5px);
+            background-size: 25px 25px; 
+            z-index: -1;
+        }
+
+        .container {
+            width: 100%; 
+            max-width: 500px; 
+            padding: clamp(1.5rem, 5vw, 2.5rem); 
+            background: #fff;
+            border: 5px solid #000; 
+            box-shadow: 12px 12px 0px #000; 
+            border-radius: 25px;
+            text-align: center;
+            transform: rotate(-0.5deg); /* เอียงฝั่งตรงข้ามกับหน้าวิ่งให้ดู Dynamic */
+        }
+
+        h1 { 
+            font-family: 'Gochi Hand', cursive; 
+            font-size: clamp(2rem, 8vw, 2.8rem); 
+            margin-bottom: 1.5rem; 
+            margin-top: 0;
+        }
+        
+        /* สไตล์ไอเทมการ์ด */
+        .tcg-item {
+            display: block; 
+            text-decoration: none; 
+            color: #000;
+            background: #fff; 
+            border: 3px solid #000; 
+            border-radius: 15px;
+            padding: 20px 15px; 
+            margin-bottom: 15px; 
+            font-weight: 700;
+            font-size: clamp(0.95rem, 3.5vw, 1.15rem);
+            transition: 0.2s ease-in-out; 
+            box-shadow: 5px 5px 0px #000;
+            line-height: 1.4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .tcg-item:hover {
+            background: #e0f7fa; /* สีฟ้าอ่อนแบบ Holographic card */
+            transform: translate(-4px, -4px) scale(1.02);
+            box-shadow: 10px 10px 0px #000;
+        }
+
+        .back-btn {
+            display: inline-block; 
+            margin-top: 25px; 
+            color: #000; 
+            text-decoration: none; 
+            font-size: 1rem;
+            font-weight: 700;
+            padding: 8px 15px;
+            border-bottom: 2px solid transparent;
+            transition: 0.2s;
+        }
+
+        .back-btn:hover { 
+            border-bottom: 2px solid #000;
+            background: #eee;
+            border-radius: 10px;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1.5rem;
+                transform: rotate(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🃏 TCG Collection</h1>
+        
+        <a href="https://bangbon.app/profile/wcz9JZ2YfKDsN8iV6LhOWoigT1WT8flm" 
+           target="_blank" 
+           rel="noopener noreferrer" 
+           class="tcg-item">
+           ✨ Battle of Talingchan
+        </a>
+
+        <a href="index.html" class="back-btn">← Back to Profile</a>
+    </div>
+
+</body>
+</html>
