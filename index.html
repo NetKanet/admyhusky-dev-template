@@ -31,7 +31,6 @@
             padding: 20px;
         }
 
-        /* Dotted Background with more subtle feel */
         body::before {
             content: "";
             position: absolute;
@@ -51,25 +50,6 @@
             border-radius: 40px;
             z-index: 10;
             text-align: center;
-            position: relative;
-        }
-
-        /* กิมมิครูปหัวมุม (ถ้ามีรูปตัวเองมาใส่จะเท่มาก) */
-        .profile-icon {
-            position: absolute;
-            top: -40px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--accent-yellow);
-            border: var(--border-thick);
-            width: 80px;
-            height: 80px;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            box-shadow: 6px 6px 0px #000;
         }
 
         .speech-bubble {
@@ -93,50 +73,59 @@
             color: #333;
         }
 
-        /* --- New Grid System --- */
+        /* --- ระบบ Flexbox ที่สมมาตรและยืดหยุ่น --- */
         .hobby-group {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
+            display: flex;
+            flex-wrap: wrap; 
+            gap: 12px;
             margin-top: 20px;
+            justify-content: center;
         }
 
         .hobby-tag {
             background: #fff;
             border: 3px solid #000;
             padding: 16px 10px;
-            border-radius: 18px 10px 18px 12px; /* ลบมุมไม่เท่ากันให้ดูเหมือนวาดมือ */
+            border-radius: 18px 10px 18px 12px;
             font-size: 1rem;
             text-decoration: none;
             color: #000;
             font-weight: 700;
             display: flex;
-            flex-direction: column; /* ไอคอนอยู่บน ตัวหนังสืออยู่ล่างเพื่อให้ดูเป็นระเบียบ */
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             gap: 8px;
             box-shadow: 4px 4px 0px #000;
             transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            
+            /* หัวใจสำคัญ */
+            flex: 1 1 calc(33.33% - 12px); /* พยายามเป็น 33% (3 ปุ่มต่อแถว) */
+            min-width: 160px;               /* ป้องกันปุ่มแคบเกินไป */
+            min-height: 110px;              /* บังคับความสูงให้เท่ากันเป๊ะทุกปุ่ม */
         }
 
-        .hobby-tag i {
-            font-size: 1.4rem;
-        }
-
+        .hobby-tag i { font-size: 1.4rem; }
         .fa-youtube { color: var(--yt-red); }
 
-        /* ปุ่ม TCG ยาวเต็ม พร้อมดีไซน์พิเศษ */
-        .full-width {
-            grid-column: span 3;
-            flex-direction: row; /* กลับมาเป็นแนวนอน */
-            padding: 18px;
-            background: #fafafa;
-        }
-
-        .hobby-tag:hover {
+        .hobby-tag:hover:not(.disabled) {
             background: #fffcea;
             transform: translateY(-5px);
             box-shadow: 8px 8px 0px #000;
+        }
+
+        .hobby-tag.disabled {
+            background: #f5f5f5;
+            color: #999;
+            border-color: #ccc;
+            box-shadow: 4px 4px 0px #ddd;
+            cursor: not-allowed;
+        }
+
+        .coming-soon { 
+            font-size: 0.75rem; 
+            font-weight: 300; 
+            opacity: 0.8;
         }
 
         .github-btn {
@@ -154,22 +143,17 @@
             transition: 0.2s;
         }
 
-        .github-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 9px 9px 0px var(--github-green);
-        }
-
         @media (max-width: 550px) {
-            .hobby-group { grid-template-columns: repeat(2, 1fr); }
-            .full-width { grid-column: span 2; }
-            .container { padding: 2.5rem 1rem; }
+            .hobby-tag {
+                flex: 1 1 calc(50% - 12px); /* บนมือถือให้แบ่ง 50% หรือยืดเต็มถ้าเหลือคนเดียว */
+                min-height: 100px;
+            }
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-
         <div class="speech-bubble">Hi! I'm Net</div>
         
         <div class="bio-text">
@@ -189,11 +173,15 @@
                     <i class="fa-solid fa-person-running"></i>
                     <span>Running</span>
                 </a>
-
-                <a href="tcg.html" class="hobby-tag full-width">
+                <a href="tcg.html" class="hobby-tag">
                     <i class="fa-solid fa-layer-group"></i> 
-                    &nbsp; TCG Collection
+                    <span>TCG Collection</span>
                 </a>
+                <div class="hobby-tag disabled">
+                    <i class="fa-solid fa-seedling"></i> 
+                    <span>Digital Garden</span>
+                    <span class="coming-soon">Coming Soon</span>
+                </div>
             </div>
         </div>
 
