@@ -40,13 +40,7 @@ window.Hero = function Hero({ bubble, accent }) {
       <div className="wrap">
         <div className="hero-grid">
           <div className="hero-head">
-            <span className="hero-status">
-              <span className="dot-pulse"></span>
-              {R.currentCompany
-                ? `Currently @ ${R.currentCompany}`
-                : R.statusLabel || 'Available'}
-            </span>
-            <h1 style={{marginTop:18}}>
+            <h1>
               <span className="wave-em">👋</span>{' '}
               <span className="hi">Hi! I'm</span>{' '}
               <span className="name">{R.nickname}</span>
