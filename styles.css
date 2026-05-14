@@ -725,13 +725,101 @@ section { padding: 90px 0; position: relative; overflow: hidden; }
   transition: transform .15s;
 }
 .about-chip:hover { transform: translateY(-2px) rotate(-1deg); background: var(--yellow); }
-.about-chip:nth-child(3n) { background: #fff; }
-.about-chip:nth-child(3n+1) { background: var(--mint); }
 .about-personal-mascot {
   position: relative;
   width: 100%;
   max-width: 340px;
   margin-left: auto;
+}
+
+/* ---- About: clickable card + fullscreen modal ---- */
+.about-personal-clickable {
+  cursor: pointer;
+  transition: transform .2s, box-shadow .2s;
+}
+.about-personal-clickable:hover {
+  transform: translateY(-4px);
+  box-shadow: 8px 8px 0 var(--line);
+}
+
+.about-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(27,27,58,.55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: aboutOverlayIn .3s ease-out;
+}
+@keyframes aboutOverlayIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.about-modal {
+  position: relative;
+  background: #fff;
+  border: var(--b) solid var(--line);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 48px 44px;
+  width: 100%;
+  max-width: 960px;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: aboutModalIn .4s cubic-bezier(.16,1,.3,1);
+}
+@keyframes aboutModalIn {
+  from { opacity: 0; transform: scale(.85) translateY(30px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.about-modal .about-personal-grid {
+  grid-template-columns: 1.2fr 1fr;
+  gap: 40px;
+}
+.about-modal .about-personal-title {
+  font-size: clamp(28px, 3.2vw, 40px);
+}
+.about-modal .about-personal-body {
+  font-size: 19px;
+  line-height: 1.7;
+}
+.about-modal .about-personal-mascot {
+  max-width: 380px;
+}
+
+.about-modal-close {
+  position: absolute;
+  top: 16px; right: 18px;
+  width: 40px; height: 40px;
+  border: 2px solid var(--line);
+  border-radius: 50%;
+  background: var(--bg);
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--ink);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform .15s, background .15s;
+  z-index: 2;
+}
+.about-modal-close:hover {
+  transform: scale(1.1) rotate(90deg);
+  background: var(--coral);
+  color: #fff;
+}
+
+@media (max-width: 880px) {
+  .about-modal { padding: 28px 20px; }
+  .about-modal .about-personal-grid { grid-template-columns: 1fr; }
+  .about-modal .about-personal-mascot { max-width: 260px; margin: 0 auto; }
 }
 
 /* ---- About: highlight cards (replace mascot in about-top) ---- */
@@ -873,6 +961,9 @@ section { padding: 90px 0; position: relative; overflow: hidden; }
   border-radius: 50%;
   box-shadow: var(--shadow-lg);
   overflow: hidden;
+}
+.character-img-reading {
+  clip-path: circle(46% at 50% 50%);
 }
 .character-disc::before {
   content: '';
@@ -1200,6 +1291,19 @@ section { padding: 90px 0; position: relative; overflow: hidden; }
   display: flex; align-items: center; gap: 18px;
   padding: 20px 24px;
 }
+.run-card-link {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: transform .15s, box-shadow .15s;
+}
+.run-card-link:hover {
+  transform: translateY(-4px);
+  box-shadow: 8px 8px 0 var(--line);
+}
+.run-card-link:hover .run-slip {
+  background: var(--yellow);
+}
 .run-emoji {
   width: 56px; height: 56px;
   flex: 0 0 56px;
@@ -1476,6 +1580,11 @@ section { padding: 90px 0; position: relative; overflow: hidden; }
   border-radius: 14px;
   display: grid; place-items: center;
   font-size: 24px;
+  overflow: hidden;
+}
+.tcg-icon-img {
+  width: 100%; height: 100%;
+  object-fit: cover;
 }
 .tcg-info { flex: 1; min-width: 0; }
 .tcg-name {
@@ -1576,6 +1685,28 @@ section { padding: 90px 0; position: relative; overflow: hidden; }
   flex: 0 0 32px;
 }
 .contact-social-link .ci-icon { width: 16px; height: 16px; }
+
+.contact-socials-icons {
+  gap: 16px;
+  justify-content: center;
+}
+.contact-icon {
+  display: grid;
+  place-items: center;
+  width: 52px; height: 52px;
+  background: rgba(255,248,231,.12);
+  border: 2px solid rgba(255,248,231,.2);
+  border-radius: 50%;
+  transition: background .15s, transform .15s;
+}
+.contact-icon img {
+  width: 26px; height: 26px;
+  object-fit: contain;
+}
+.contact-icon:hover {
+  background: rgba(255,248,231,.25);
+  transform: translateY(-3px) scale(1.1);
+}
 
 .contact-layout {
   position: relative;

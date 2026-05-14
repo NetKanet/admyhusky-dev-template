@@ -29,7 +29,7 @@ function Nav({ activeId }) {
   return (
     <nav className="nav">
       <div className="nav-inner">
-        <a className="brand" href="#top">Net 🐺</a>
+        <a className="brand" href="#top">Net</a>
         {NAV_SECTIONS.map(s => (
           <a key={s.id} href={`#${s.id}`} className={activeId === s.id ? 'is-current' : ''}>{s.label}</a>
         ))}

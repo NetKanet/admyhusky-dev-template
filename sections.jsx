@@ -1,4 +1,4 @@
-/* global React, window */
+/* global React, ReactDOM, window */
 const { useEffect, useRef, useState } = React;
 
 /* All content comes from window.RESUME (data.js).
@@ -34,6 +34,7 @@ function Deco({ shapes }) {
 window.Hero = function Hero({ bubble, accent }) {
   const R = window.RESUME;
   const [techHover, setTechHover] = useState(null);
+  const [learningHover, setLearningHover] = useState(false);
   return (
     <section className="hero" id="top">
       <div className="wrap">
@@ -57,7 +58,7 @@ window.Hero = function Hero({ bubble, accent }) {
             <div className="hero-tech">
               {R.skills.filter(g => !g.learning).flatMap(g => g.items).filter(s => s.icon).slice(0, 8).map(s => (
                 <div className="hero-tech-icon bouncy" key={s.name} data-name={s.name}
-                  onMouseEnter={() => setTechHover(s.name)}
+                  onMouseEnter={() => { setTechHover(s.name); setLearningHover(false); }}
                   onMouseLeave={() => setTechHover(null)}>
                   <img src={s.icon} alt={s.name} />
                 </div>
@@ -66,8 +67,8 @@ window.Hero = function Hero({ bubble, accent }) {
             <div className="hero-tech hero-tech-row2">
               {R.skills.filter(g => g.learning).flatMap(g => g.items).filter(s => s.icon).map(s => (
                 <div className="hero-tech-icon hero-tech-learning bouncy" key={s.name} data-name={s.name + ' (learning)'}
-                  onMouseEnter={() => setTechHover(s.name + ' 📖 learning')}
-                  onMouseLeave={() => setTechHover(null)}>
+                  onMouseEnter={() => { setTechHover(s.name + ' 📖 learning'); setLearningHover(true); }}
+                  onMouseLeave={() => { setTechHover(null); setLearningHover(false); }}>
                   <img src={s.icon} alt={s.name} />
                 </div>
               ))}
@@ -80,7 +81,11 @@ window.Hero = function Hero({ bubble, accent }) {
 
           </div>
 
-          <window.Character bubbleOverride={techHover || bubble} accent={accent} />
+          <window.Character
+            expressionOverride={learningHover ? 'reading' : undefined}
+            bubbleOverride={techHover || bubble}
+            accent={accent}
+          />
         </div>
       </div>
     </section>
@@ -91,6 +96,38 @@ window.Hero = function Hero({ bubble, accent }) {
 window.About = function About({ accent }) {
   const R = window.RESUME;
   const P = R.aboutPersonal || {};
+  const [open, setOpen] = useState(false);
+  const cardRef = useRef(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e) => { if (e.key === 'Escape') setOpen(false); };
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', onKey);
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', onKey);
+    };
+  }, [open]);
+
+  const cardContent = (isModal) => (
+    <div className="about-personal-grid">
+      <div>
+        <span className="eyebrow yellow" style={{marginBottom: 12}}>👋 Hi there</span>
+        <h3 className="about-personal-title">{P.heading}</h3>
+        <p className="about-personal-body">{P.body}</p>
+        {P.chips && (
+          <div className="about-chips">
+            {P.chips.map(c => <span key={c.label} className="about-chip">{c.label}</span>)}
+          </div>
+        )}
+      </div>
+      <div className="about-personal-mascot">
+        <window.AboutMascot accent={accent} />
+      </div>
+    </div>
+  );
+
   return (
     <section id="about">
       <div className="wrap">
@@ -98,34 +135,24 @@ window.About = function About({ accent }) {
           <span className="eyebrow coral">About me</span>
         </div>
 
-        {/* Personal intro card — sits above the resume content */}
         {P.heading && (
-          <div className="card about-personal">
-            <div className="about-personal-grid">
-              <div>
-                <span className="eyebrow yellow" style={{marginBottom: 12}}>👋 Hi there</span>
-                <h3 className="about-personal-title">{P.heading}</h3>
-                <p className="about-personal-body">{P.body}</p>
-                {P.chips && (
-                  <div className="about-chips">
-                    {P.chips.map(c => <span key={c.label} className="about-chip">{c.label}</span>)}
-                  </div>
-                )}
-              </div>
-              <div className="about-personal-mascot">
-                <window.AboutMascot accent={accent} />
-              </div>
-            </div>
+          <div className="card about-personal about-personal-clickable" ref={cardRef}
+               onClick={() => setOpen(true)}>
+            {cardContent(false)}
           </div>
         )}
 
-        <div className="card about-summary">
-          <span className="eyebrow mint" style={{marginBottom: 12}}>Profile</span>
-          <h3>The work side of me</h3>
-          <p>{R.summary}</p>
-        </div>
-
       </div>
+
+      {open && ReactDOM.createPortal(
+        <div className="about-modal-overlay" onClick={() => setOpen(false)}>
+          <div className="about-modal" onClick={(e) => e.stopPropagation()}>
+            <button className="about-modal-close" onClick={() => setOpen(false)} aria-label="Close">✕</button>
+            {cardContent(true)}
+          </div>
+        </div>,
+        document.body
+      )}
     </section>
   );
 };
@@ -149,7 +176,6 @@ window.AboutMascot = function AboutMascot({ accent }) {
     return () => window.removeEventListener('mousemove', onMove);
   }, []);
 
-  // sparkles around the character
   const sparkles = [
     { left: '8%',  top: '14%', size: 22, delay: '0s' },
     { left: '82%', top: '8%',  size: 30, delay: '.6s' },
@@ -258,9 +284,6 @@ window.Loves = function Loves() {
           <span className="eyebrow yellow">Hobbies</span>
           <h2 style={{margin:0}}>Things I love</h2>
         </div>
-        <p style={{maxWidth: 540, color:'var(--ink-soft)', marginBottom: 28}}>
-          A handful of corners on the internet where you'll find more of me.
-        </p>
         <div className="loves-grid">
           {R.loves.map(l => {
             const isAnchor = l.href && l.href.startsWith('#');
@@ -296,28 +319,38 @@ window.Running = function Running() {
           <span className="eyebrow mint">Running</span>
           <h2 style={{margin:0}}>Race records</h2>
         </div>
-        <p style={{maxWidth: 540, color:'var(--ink-soft)', marginBottom: 28}}>
-          Long &amp; slow — every finish line counts.
-        </p>
         <div className="runs-grid">
-          {R.runs.map((run, i) => (
-            <div className={`card run-card${run.soon ? ' run-soon' : ''}`} key={i}>
-              <div className="run-emoji">{run.emoji || '🏅'}</div>
-              <div className="run-info">
-                <div className="run-event">{run.event}</div>
-                <div className="run-meta">
-                  <span className="run-distance">{run.distance}</span>
-                  {run.date && <span className="run-date">{run.date}</span>}
+          {R.runs.map((run, i) => {
+            if (run.soon) {
+              return (
+                <div className="card run-card run-soon" key={i}>
+                  <div className="run-emoji">{run.emoji || '🏅'}</div>
+                  <div className="run-info">
+                    <div className="run-event">{run.event}</div>
+                    <div className="run-meta">
+                      <span className="run-distance">{run.distance}</span>
+                      {run.date && <span className="run-date">{run.date}</span>}
+                    </div>
+                  </div>
+                  <div className="run-badge">Coming soon</div>
                 </div>
-              </div>
-              {run.soon && <div className="run-badge">Coming soon</div>}
-              {run.eslip && (
-                <a className="btn ghost bouncy run-slip" href={run.eslip} target="_blank" rel="noopener">
-                  e-slip ↗
-                </a>
-              )}
-            </div>
-          ))}
+              );
+            }
+            return (
+              <a className="card run-card run-card-link bouncy" key={i}
+                 href={run.eslip || '#'} target="_blank" rel="noopener">
+                <div className="run-emoji">{run.emoji || '🏅'}</div>
+                <div className="run-info">
+                  <div className="run-event">{run.event}</div>
+                  <div className="run-meta">
+                    <span className="run-distance">{run.distance}</span>
+                    {run.date && <span className="run-date">{run.date}</span>}
+                  </div>
+                </div>
+                {run.eslip && <span className="btn ghost run-slip">e-slip ↗</span>}
+              </a>
+            );
+          })}
         </div>
       </div>
       <div className="section-mascot-divider">
@@ -489,14 +522,14 @@ window.TCG = function TCG() {
       <div className="wrap">
         <div style={{marginBottom: 26, display:'flex', alignItems:'baseline', gap:14, flexWrap:'wrap'}}>
           <span className="eyebrow lav">Cards</span>
-          <h2 style={{margin:0}}>Cards &amp; corners</h2>
+          <h2 style={{margin:0}}>Cards</h2>
         </div>
         <div className="tcg-grid">
           {R.tcg.map((card, i) => {
             if (card.soon) {
               return (
                 <div className="card tcg-card tcg-soon" key={i}>
-                  <div className="tcg-emoji">{card.emoji || '🃏'}</div>
+                  <div className="tcg-emoji">{card.icon ? <img src={card.icon} alt={card.name} className="tcg-icon-img" /> : (card.emoji || '🃏')}</div>
                   <div className="tcg-info">
                     <div className="tcg-name">{card.name}</div>
                     <div className="tcg-sub">Coming soon</div>
@@ -508,7 +541,7 @@ window.TCG = function TCG() {
             return (
               <a className="card tcg-card bouncy" key={i}
                  href={card.href} target="_blank" rel="noopener">
-                <div className="tcg-emoji">{card.emoji || '🃏'}</div>
+                <div className="tcg-emoji">{card.icon ? <img src={card.icon} alt={card.name} className="tcg-icon-img" /> : (card.emoji || '🃏')}</div>
                 <div className="tcg-info">
                   <div className="tcg-name">{card.name}</div>
                   {card.sub && <div className="tcg-sub">{card.sub}</div>}
@@ -540,34 +573,24 @@ window.Contact = function Contact() {
                 <span className="eyebrow mint" style={{marginBottom:16}}>Follow me on social media</span>
                 <h2 style={{marginTop:14, color:'var(--bg)'}}>People say nothing is impossible, but I do nothing every day.</h2>
 
-                <div className="contact-socials">
-                  <a className="contact-social-link bouncy" href={`mailto:${R.contact.email}`}>
-                    <span className="ci ci-mail"><img src="https://uxwing.com/wp-content/themes/uxwing/download/communication-chat-call/email-round-icon.png" alt="Email" className="ci-icon" /></span>
-                    <span>Email</span>
+                <div className="contact-socials contact-socials-icons">
+                  <a className="contact-icon bouncy" href={R.contact.linkedin} target="_blank" rel="noopener" aria-label="LinkedIn" style={{background:'#0A66C2'}}>
+                    <img src="images/linkedin.svg" alt="LinkedIn" />
                   </a>
-                  <a className="contact-social-link bouncy" href={R.contact.linkedin} target="_blank" rel="noopener">
-                    <span className="ci ci-in"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/linkedin/linkedin-original.svg" alt="LinkedIn" className="ci-icon" /></span>
-                    <span>LinkedIn</span>
+                  <a className="contact-icon bouncy" href={R.contact.github} target="_blank" rel="noopener" aria-label="GitHub" style={{background:'#333'}}>
+                    <img src="images/github.svg" alt="GitHub" />
                   </a>
-                  <a className="contact-social-link bouncy" href={R.contact.github} target="_blank" rel="noopener">
-                    <span className="ci ci-gh"><img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/github-white-icon.png" alt="GitHub" className="ci-icon" /></span>
-                    <span>GitHub</span>
+                  <a className="contact-icon bouncy" href={R.contact.facebook} target="_blank" rel="noopener" aria-label="Facebook" style={{background:'#1877F2'}}>
+                    <img src="images/facebook.svg" alt="Facebook" />
                   </a>
-                  <a className="contact-social-link bouncy" href={R.contact.facebook} target="_blank" rel="noopener">
-                    <span className="ci ci-fb"><img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/facebook-app-round-white-icon.png" alt="Facebook" className="ci-icon" /></span>
-                    <span>Facebook</span>
+                  <a className="contact-icon bouncy" href={R.contact.instagram} target="_blank" rel="noopener" aria-label="Instagram" style={{background:'linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888)'}}>
+                    <img src="images/instagram.svg" alt="Instagram" />
                   </a>
-                  <a className="contact-social-link bouncy" href={R.contact.instagram} target="_blank" rel="noopener">
-                    <span className="ci ci-ig"><img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/instagram-white-icon.png" alt="Instagram" className="ci-icon" /></span>
-                    <span>@netbearrrr</span>
+                  <a className="contact-icon bouncy" href={R.contact.youtube} target="_blank" rel="noopener" aria-label="YouTube" style={{background:'#FF0000'}}>
+                    <img src="images/youtube.svg" alt="YouTube" />
                   </a>
-                  <a className="contact-social-link bouncy" href={R.contact.youtube} target="_blank" rel="noopener">
-                    <span className="ci ci-yt"><img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/youtube-app-white-icon.png" alt="YouTube" className="ci-icon" /></span>
-                    <span>YouTube</span>
-                  </a>
-                  <a className="contact-social-link bouncy" href={R.contact.spotify} target="_blank" rel="noopener">
-                    <span className="ci ci-spotify"><img src="https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Primary_Logo_RGB_White.png" alt="Spotify" className="ci-icon" /></span>
-                    <span>Spotify</span>
+                  <a className="contact-icon bouncy" href={R.contact.spotify} target="_blank" rel="noopener" aria-label="Spotify" style={{background:'#1DB954'}}>
+                    <img src="images/spotify.svg" alt="Spotify" />
                   </a>
                 </div>
               </div>

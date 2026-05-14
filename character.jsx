@@ -10,6 +10,7 @@ const EXPRESSIONS = {
   laugh:   'images/net-laugh.png',    // big laugh, eyes closed
   proud:   'images/net-roses.png',    // arms-crossed wink with roses (about)
   thumbs:  'images/net-thumbs.png',   // thumbs-up wink (contact)
+  reading: 'images/net-reading.png',  // reading pose (learning)
 };
 
 const BUBBLES = {
@@ -40,7 +41,11 @@ window.Character = function Character({ expressionOverride, bubbleOverride, acce
 
   // honor explicit override from scroll observer
   useEffect(() => {
-    if (expressionOverride) setExpr(expressionOverride);
+    if (expressionOverride) {
+      setExpr(expressionOverride);
+    } else {
+      setExpr('calm');
+    }
   }, [expressionOverride]);
 
   useEffect(() => {
@@ -140,7 +145,7 @@ window.Character = function Character({ expressionOverride, bubbleOverride, acce
               key={k}
               src={src}
               alt={k}
-              className="character-img"
+              className={`character-img${k === 'reading' ? ' character-img-reading' : ''}`}
               style={{ opacity: liveExpr === k ? 1 : 0 }}
               draggable="false"
             />

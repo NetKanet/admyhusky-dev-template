@@ -7,14 +7,13 @@
 window.RESUME = {
   name: 'Kanet Kampiranon',
   nickname: 'Net',
-  title: 'Backend Engineer',
+  title: 'Backend Engineer with 5+ years of experience',
   location: 'Bangkok, Thailand',
-  // currentCompany: leave empty when between jobs; statusLabel shows instead
   currentCompany: '',
   statusLabel: 'Open to new opportunities',
   pronouns: 'he/him',
 
-  tagline: 'Just a guy who loves tech, good books, long runs, and building meaningful things.',
+  tagline: 'Loves clean code, long runs, and good books.',
 
   summary:
     "Backend Engineer specializing in Spring Boot microservices (Java/Kotlin), implementing " +
@@ -26,16 +25,17 @@ window.RESUME = {
   aboutPersonal: {
     heading: "A little about me",
     body:
-      "Hey! I'm Net 👋 — a Bangkok-based backend engineer with a soft spot for well-tested code and quietly-resilient systems. " +
-      "Off the clock you'll probably catch me out on a long slow run, deep into a book, sorting through TCG cards, " +
-      "or tending to my little corner of the internet (admyhusky.dev + a digital garden of half-finished thoughts).",
+      "Hey! I'm Net 👋 — a backend engineer based in Bangkok with 5+ years building microservices in Java and Kotlin. " +
+      "I spend most of my days with Spring Boot, writing unit tests, and making sure things don't break at 3 AM — fueled by way too much coffee. " +
+      "Off the clock, I'm usually out on a long slow run, reading novels, sorting through TCG cards getting ready for the next tournament, " +
+      "or tending my digital garden where I jot down thoughts and things I've learned.",
     chips: [
       { label: '📍 Bangkok, TH' },
-      { label: '☕ Coffee + code' },
-      { label: '🏃 Long-distance runs' },
-      { label: '📚 Always reading' },
+      { label: '🏃 Running' },
+      { label: '📚 Reading' },
       { label: '🃏 TCG collector' },
       { label: '🌱 Digital gardener' },
+      { label: '☕ Coffee + code' },
     ],
   },
 
@@ -156,7 +156,7 @@ window.RESUME = {
     { title: 'Bookshelf',      sub: 'currently reading',   emoji: '📚', bg: 'var(--yellow)', href: '#bookshelf' },
     { title: 'Running',        sub: 'long & slow',         emoji: '🏃', bg: 'var(--mint)',   href: '#running' },
     { title: 'TCG Collection', sub: 'cards & corners',     emoji: '🃏', bg: 'var(--lav)',    href: '#tcg' },
-    { title: 'Digital Garden', sub: 'thoughts & notes',    emoji: '🌱', bg: 'var(--leaf)',   href: 'https://garden.admyhusky.dev' },
+    { title: 'Digital Garden', sub: 'thoughts & notes',    emoji: '🌱', bg: 'var(--coral)',  href: 'https://garden.admyhusky.dev' },
   ],
 
   // Running records — add new entries at the top when you finish a race
@@ -206,45 +206,45 @@ window.RESUME = {
       {
         name: '2026',
         books: [
-          { title: 'Ghost Me Free WiFi หลอกได้แต่จ่ายด้วย', author: 'สีพรำ', dateEnd: '2026-03-31' },
-          { title: 'เฮาส์เมด : The Housemaid', author: 'Freida McFadden (ฟรีดา แมกแฟดเดน)', dateEnd: '2026-03-17' },
+          { title: 'Ghost Me Free WiFi หลอกได้แต่จ่ายด้วย', author: 'สีพรำ', dateEnd: '2026-03-31', cover: 'https://storage.naiin.com/system/application/bookstore/resource/product/202509/686064/1000285791_front_XXL.jpg' },
+          { title: 'เฮาส์เมด : The Housemaid', author: 'Freida McFadden (ฟรีดา แมกแฟดเดน)', dateEnd: '2026-03-17', cover: 'https://storage.naiin.com/system/application/bookstore/resource/product/202408/619675/1000274529_front_XXL.jpg' },
         ],
       },
       {
         name: '2025',
         books: [
-          { title: 'กาสักอังก์ฆาต', author: 'กิตติศักดิ์ คงคา', dateEnd: '2025-10-30' },
-          { title: 'นักตั้งเวลาตาย : The Night Stalker', author: 'Chris Carter', dateEnd: '2025-04-18' },
-          { title: 'เลขเพชฌฆาต : The Executioner', author: 'Chris Carter', dateEnd: '2025-04-04' },
-          { title: 'ฆาตกรกางเขนคู่ : The Crucifix Killer', author: 'Chris Carter', dateEnd: '2025-03-21' },
-          { title: 'ปริศนาเรือโนอาห์ปิดตาย', author: 'Haruo Yuuki (ฮารุโอะ ยูกิ)', dateEnd: '2025-03-06' },
-          { title: 'ใช้คลื่นพลังบวกดึงดูดพลังสุข Good Vibes, Good Life', author: 'เว็กซ์ คิงส์', dateEnd: '2025-02-05' },
-          { title: 'Untitled Case: Human Horror ชมรมคนหัวลุก', author: 'ยชญ์ บรรพพงศ์, ธัญวัฒน์ อิพภูดม', dateEnd: '2025-01-01' },
+          { title: 'กาสักอังก์ฆาต', author: 'กิตติศักดิ์ คงคา', dateEnd: '2025-10-30', cover: 'https://storage.naiin.com/system/application/bookstore/resource/product/202403/607508/1000270896_front_XXL.jpg' },
+          { title: 'นักตั้งเวลาตาย : The Night Stalker', author: 'Chris Carter', dateEnd: '2025-04-18', cover: 'https://storage.naiin.com/system/application/bookstore/resource/product/202410/626267/1000276402_front_XXL.jpg' },
+          { title: 'เลขเพชฌฆาต : The Executioner', author: 'Chris Carter', dateEnd: '2025-04-04', cover: 'https://storage.naiin.com/system/application/bookstore/resource/product/202410/626265/1000276400_front_XXL.jpg' },
+          { title: 'ฆาตกรกางเขนคู่ : The Crucifix Killer', author: 'Chris Carter', dateEnd: '2025-03-21', cover: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSh8QWSCcrCiGQgIvaIIVdHIcShI94OQIl33g&s' },
+          { title: 'ปริศนาเรือโนอาห์ปิดตาย', author: 'Haruo Yuuki (ฮารุโอะ ยูกิ)', dateEnd: '2025-03-06', cover: 'https://storage.naiin.com/system/application/bookstore/resource/product/202501/637080/1000279611_front_XXL.jpg?v=1738548364' },
+          { title: 'ใช้คลื่นพลังบวกดึงดูดพลังสุข Good Vibes, Good Life', author: 'เว็กซ์ คิงส์', dateEnd: '2025-02-05', cover: 'https://storage.naiin.com/system/application/bookstore/resource/product/202109/533411/1000243428_front_XXL.jpg' },
+          { title: 'Untitled Case: Human Horror ชมรมคนหัวลุก', author: 'ยชญ์ บรรพพงศ์, ธัญวัฒน์ อิพภูดม', dateEnd: '2025-01-01', cover: 'https://storage.naiin.com/system/application/bookstore/resource/product/202009/512229/1000235799_back_XXL.jpg' },
         ],
       },
       {
         name: '2024',
         books: [
-          { title: 'ทำไมคนที่ทำงานเก่งที่สุดถึงใช้สมุดกราฟ', author: 'ทะคะฮะชิ มะซะฟุมิ', dateEnd: '2024-12-30' },
-          { title: 'ฆาตกรมนุษย์กบกับศพปริศนา 連续殺人鬼 カエル男', author: 'ชิจิริ นากายามะ', dateEnd: '2024-11-21' },
-          { title: 'บ้านวิกลคนประหลาด เล่ม 2', author: 'อุเก็ตสึ', dateEnd: '2024-10-24' },
-          { title: 'LE HORLA', author: '', dateEnd: '2024-10-22' },
-          { title: 'เพราะชีวิตดีได้กว่าที่เป็น Atomic Habits', author: 'เจมส์ เคลียร์', dateEnd: '2024-10-14' },
-          { title: 'สัมผัสที่โหด Untitled Case : Sick Sense', author: 'ยชญ์ บรรพพงศ์ / ธัญวัฒน์ อิพภูดม', dateEnd: '2024-09-24' },
-          { title: 'You ghost me every sadturday night', author: 'ธนชาติ ศิริภัทราชัย', dateEnd: '2024-09-24' },
-          { title: 'เพราะแมวแฟรงกี้ ผมจึงอยากมีชีวิตต่อไปอีกหน่อย Frankie', author: 'ย็อคเคิน กูทช์ / มักซิม เลโอ', dateEnd: '2024-04-16' },
-          { title: 'มหัศจรรย์ห้องสมุดเที่ยงคืน The Midnight Library', author: 'แมตต์ เฮก (Matt Haig)', dateEnd: '2024-04-14' },
-          { title: 'เธอคู่ควรกับความรักที่ดีเสมอ', author: 'วินนี่', dateEnd: '2024-03-12' },
-          { title: 'ร้านชําสําหรับคนอยากตาย', author: 'ฌอง เติลเล่', dateEnd: '2024-02-10' },
+          { title: 'ทำไมคนที่ทำงานเก่งที่สุดถึงใช้สมุดกราฟ', author: 'ทะคะฮะชิ มะซะฟุมิ', dateEnd: '2024-12-30', cover: 'https://storage.naiin.com/system/application/bookstore/resource/product/201804/233846/1000207000_front_XXL.jpg?v=1725829911' },
+          { title: 'ฆาตกรมนุษย์กบกับศพปริศนา 連续殺人鬼 カエル男', author: 'ชิจิริ นากายามะ', dateEnd: '2024-11-21', cover: 'https://bci.kinokuniya.com/jsp/images/book-img/97861/97861618/9786161855574.JPG' },
+          { title: 'บ้านวิกลคนประหลาด เล่ม 2', author: 'อุเก็ตสึ', dateEnd: '2024-10-24', cover: 'https://storage.naiin.com/system/application/bookstore/resource/product/202406/614895/1000272786_front_XXL.jpg?v=1725910233' },
+          { title: 'LE HORLA', author: '', dateEnd: '2024-10-22', cover: 'https://dopffer.fr/wp-content/uploads/2019/09/le_horla.jpg' },
+          { title: 'เพราะชีวิตดีได้กว่าที่เป็น Atomic Habits', author: 'เจมส์ เคลียร์', dateEnd: '2024-10-14', cover: 'https://storage.naiin.com/system/application/bookstore/resource/product/202209/559466/1000253818_front_XXL.jpg' },
+          { title: 'สัมผัสที่โหด Untitled Case : Sick Sense', author: 'ยชญ์ บรรพพงศ์ / ธัญวัฒน์ อิพภูดม', dateEnd: '2024-09-24', cover: 'https://thailand.kinokuniya.com/products/9786162986192/image_isbn' },
+          { title: 'You ghost me every sadturday night', author: 'ธนชาติ ศิริภัทราชัย', dateEnd: '2024-09-24', cover: 'https://storage.naiin.com/system/application/bookstore/resource/product/202403/607148/1000270577_front_XXL.jpg' },
+          { title: 'เพราะแมวแฟรงกี้ ผมจึงอยากมีชีวิตต่อไปอีกหน่อย Frankie', author: 'ย็อคเคิน กูทช์ / มักซิม เลโอ', dateEnd: '2024-04-16', cover: 'https://storage.naiin.com/system/application/bookstore/resource/product/202403/605519/1000269925_front_XXL.jpg' },
+          { title: 'มหัศจรรย์ห้องสมุดเที่ยงคืน The Midnight Library', author: 'แมตต์ เฮก (Matt Haig)', dateEnd: '2024-04-14', cover: 'https://bci.kinokuniya.com/th/jsp/images/book-img/97861/97861682/9786168293157.JPG' },
+          { title: 'เธอคู่ควรกับความรักที่ดีเสมอ', author: 'วินนี่', dateEnd: '2024-03-12', cover: 'https://storage.naiin.com/system/application/bookstore/resource/product/202402/604000/1000269386_front_XXL.jpg' },
+          { title: 'ร้านชําสําหรับคนอยากตาย', author: 'ฌอง เติลเล่', dateEnd: '2024-02-10', cover: 'https://image.makewebcdn.com/makeweb/m_1200x600/7GFEYsdVK/DefaultData/%E0%B8%A3%E0%B9%89%E0%B8%B2%E0%B8%99%E0%B8%8A%E0%B8%B3%E0%B8%AA%E0%B8%B3%E0%B8%AB%E0%B8%A3%E0%B8%B1%E0%B8%9A%E0%B8%84%E0%B8%99%E0%B8%AD%E0%B8%A2%E0%B8%B2%E0%B8%81%E0%B8%95%E0%B8%B2%E0%B8%A2.jpg' },
         ],
       },
       {
         name: '2023',
         books: [
-          { title: 'แมวตื่นสายมักจะโดนแมวตื่นเช้าคิดถึงก่อนเสมอ', author: 'ใบพัด นบน้อม', dateEnd: '2023-12-29' },
-          { title: 'ภาพวาดปริศนากับการตามหาฆาตกร', author: 'อุเก็ตสึ', dateEnd: '2023-12-24' },
-          { title: 'บ้านวิกลคนประหลาด', author: 'อุเก็ตสึ', dateEnd: '2023-12-08' },
-          { title: 'ทุกอย่างในชีวิต เริ่มจากความคิดที่เป็นระเบียบ', author: 'Bok Joo Hwan (พกจูฮวัน)', dateEnd: '2023-12-06' },
+          { title: 'แมวตื่นสายมักจะโดนแมวตื่นเช้าคิดถึงก่อนเสมอ', author: 'ใบพัด นบน้อม', dateEnd: '2023-12-29', cover: 'https://storage.naiin.com/system/application/bookstore/resource/product/202304/576454/1000260158_front_XXL.jpg' },
+          { title: 'ภาพวาดปริศนากับการตามหาฆาตกร', author: 'อุเก็ตสึ', dateEnd: '2023-12-24', cover: 'https://storage.naiin.com/system/application/bookstore/resource/product/202307/585876/1000263340_front_XXL.jpg' },
+          { title: 'บ้านวิกลคนประหลาด', author: 'อุเก็ตสึ', dateEnd: '2023-12-08', cover: 'https://storage.naiin.com/system/application/bookstore/resource/product/202209/561084/1000254317_front_XXL.jpg' },
+          { title: 'ทุกอย่างในชีวิต เริ่มจากความคิดที่เป็นระเบียบ', author: 'Bok Joo Hwan (พกจูฮวัน)', dateEnd: '2023-12-06', cover: 'https://bci.kinokuniya.com/jsp/images/book-img/97861/97861618/9786161828837.JPG' },
         ],
       },
     ],
@@ -254,17 +254,17 @@ window.RESUME = {
   tcg: [
     {
       name: 'Battle of Talingchan',
-      emoji: '✨',
+      icon: 'images/bot-logo.webp',
       href: 'https://bangbon.app/profile/wcz9JZ2YfKDsN8iV6LhOWoigT1WT8flm',
     },
     {
       name: 'One Piece Card Game',
-      emoji: '🏴‍☠️',
+      icon: 'images/onepiece-logo.webp',
       soon: true,
     },
     {
       name: 'Pokémon TCG',
-      emoji: '⚡',
+      icon: 'images/pokemon-logo.jpg',
       soon: true,
     },
   ],
