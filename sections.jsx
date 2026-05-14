@@ -4,9 +4,36 @@ const { useEffect, useRef, useState } = React;
 /* All content comes from window.RESUME (data.js).
    Components are renderers — edit data.js to change content. */
 
+/* ---------- Deco: animated shapes for sections ---------- */
+function Deco({ shapes }) {
+  return shapes.map((s, i) => {
+    const kind = s.kind || 'circle';
+    const anim = s.anim || 'float';
+    return (
+      <span
+        key={i}
+        className={`deco deco-${kind} deco-${anim}`}
+        style={{
+          '--deco-rot': s.rotate || '0deg',
+          width: s.size,
+          height: s.size,
+          background: s.bg,
+          boxShadow: `${Math.round(s.size * 0.1)}px ${Math.round(s.size * 0.1)}px 0 var(--line)`,
+          top: s.top, bottom: s.bottom,
+          left: s.left, right: s.right,
+          opacity: s.opacity || 0.35,
+          animationDelay: s.delay || '0s',
+          animationDuration: s.dur || undefined,
+        }}
+      />
+    );
+  });
+}
+
 /* ---------- Hero ---------- */
 window.Hero = function Hero({ bubble, accent }) {
   const R = window.RESUME;
+  const [techHover, setTechHover] = useState(null);
   return (
     <section className="hero" id="top">
       <div className="wrap">
@@ -27,26 +54,33 @@ window.Hero = function Hero({ bubble, accent }) {
               <b>{R.title}</b> from {R.location}. {R.tagline}
             </p>
 
+            <div className="hero-tech">
+              {R.skills.filter(g => !g.learning).flatMap(g => g.items).filter(s => s.icon).slice(0, 8).map(s => (
+                <div className="hero-tech-icon bouncy" key={s.name} data-name={s.name}
+                  onMouseEnter={() => setTechHover(s.name)}
+                  onMouseLeave={() => setTechHover(null)}>
+                  <img src={s.icon} alt={s.name} />
+                </div>
+              ))}
+            </div>
+            <div className="hero-tech hero-tech-row2">
+              {R.skills.filter(g => g.learning).flatMap(g => g.items).filter(s => s.icon).map(s => (
+                <div className="hero-tech-icon hero-tech-learning bouncy" key={s.name} data-name={s.name + ' (learning)'}
+                  onMouseEnter={() => setTechHover(s.name + ' 📖 learning')}
+                  onMouseLeave={() => setTechHover(null)}>
+                  <img src={s.icon} alt={s.name} />
+                </div>
+              ))}
+            </div>
+
             <div className="hero-ctas">
               <a className="btn bouncy" href="#about">Read more <span aria-hidden="true">↓</span></a>
-              <a className="btn ghost bouncy" href={R.contact.github} target="_blank" rel="noopener">GitHub</a>
-              <a className="btn mint bouncy" href={R.contact.linkedin} target="_blank" rel="noopener">LinkedIn</a>
-              <a className="btn coral bouncy" href={`mailto:${R.contact.email}`}>Email me</a>
+              <a className="btn ghost bouncy" href="#contact">Follow me</a>
             </div>
 
-            <div className="hero-marquee">
-              <span>Spring Boot</span>
-              <span>Kotlin</span>
-              <span>Microservices</span>
-              <span>Robot Framework</span>
-              <span>AWS</span>
-              <span>Caffeine + Redis</span>
-              <span>OpenSearch</span>
-              <span>Grafana</span>
-            </div>
           </div>
 
-          <window.Character bubbleOverride={bubble} accent={accent} />
+          <window.Character bubbleOverride={techHover || bubble} accent={accent} />
         </div>
       </div>
     </section>
@@ -62,8 +96,6 @@ window.About = function About({ accent }) {
       <div className="wrap">
         <div className="about-header">
           <span className="eyebrow coral">About me</span>
-          <h2>The short version of my résumé.</h2>
-          <p className="lede">Everything below is pulled from <code>data.js</code> — easy to keep up to date.</p>
         </div>
 
         {/* Personal intro card — sits above the resume content */}
@@ -87,88 +119,12 @@ window.About = function About({ accent }) {
           </div>
         )}
 
-        <div className="about-top">
-          {/* LEFT: profile + contact */}
-          <div className="about-left">
-            <div className="card about-summary">
-              <span className="eyebrow mint" style={{marginBottom: 12}}>Profile</span>
-              <h3>The work side of me</h3>
-              <p>{R.summary}</p>
-            </div>
-
-            <div className="card about-contact">
-              <h3>Contact</h3>
-              <ul className="contact-list">
-                <li>
-                  <span className="ci ci-phone">☎</span>
-                  <a href={`tel:${R.contact.phoneTel}`}>{R.contact.phone}</a>
-                </li>
-                <li>
-                  <span className="ci ci-mail">@</span>
-                  <a href={`mailto:${R.contact.email}`}>{R.contact.email}</a>
-                </li>
-                <li>
-                  <span className="ci ci-in">in</span>
-                  <a href={R.contact.linkedin} target="_blank" rel="noopener">linkedin.com/in/kanet-kampiranon</a>
-                </li>
-                <li>
-                  <span className="ci ci-gh">◉</span>
-                  <a href={R.contact.github} target="_blank" rel="noopener">github.com/NetKanet</a>
-                </li>
-                <li>
-                  <span className="ci ci-site">⌂</span>
-                  <a href={R.contact.site} target="_blank" rel="noopener">admyhusky.dev</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          {/* RIGHT: highlights stack */}
-          <div className="about-right about-highlights">
-            <div className="highlight-card hl-coral">
-              <div className="hl-num">5+</div>
-              <div className="hl-lbl">Years backend</div>
-            </div>
-            <div className="highlight-card hl-yellow">
-              <div className="hl-num">3</div>
-              <div className="hl-lbl">Companies · True · Ascend · SCB</div>
-            </div>
-            <div className="highlight-card hl-mint">
-              <div className="hl-num">80%+</div>
-              <div className="hl-lbl">Test coverage</div>
-            </div>
-            <div className="highlight-card hl-lav">
-              <div className="hl-num">µSvc</div>
-              <div className="hl-lbl">Spring Boot · Kotlin · AWS</div>
-            </div>
-          </div>
+        <div className="card about-summary">
+          <span className="eyebrow mint" style={{marginBottom: 12}}>Profile</span>
+          <h3>The work side of me</h3>
+          <p>{R.summary}</p>
         </div>
 
-        {/* Technical Skills */}
-        <div className="skills-block">
-          <div className="skills-header">
-            <span className="eyebrow mint">Technical skills</span>
-            <h3 className="skills-title">Tools of the trade</h3>
-          </div>
-          <div className="skills-grid">
-            {R.skills.map((grp, i) => (
-              <div className="card skill-group" key={grp.group}>
-                <div className="skill-head">
-                  <div className="skill-ico" style={{ background: grp.color }}>{grp.ico}</div>
-                  <div className="skill-name">{grp.group}</div>
-                </div>
-                <div className="skill-chips">
-                  {grp.items.map(it => (
-                    <span className="skill-chip" key={it.name}>
-                      <span className="skill-tag" style={{ background: grp.color }}>{it.tag}</span>
-                      {it.name}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
       </div>
     </section>
   );
@@ -266,6 +222,10 @@ window.Education = function Education() {
   const R = window.RESUME;
   return (
     <section id="education" style={{paddingTop: 70, paddingBottom: 70}}>
+      <Deco shapes={[
+        { size: 80, bg: 'var(--mint)', kind: 'circle', anim: 'float', top: 20, left: 10, delay: '0s', opacity: 0.6 },
+        { size: 55, bg: 'var(--coral)', kind: 'square', anim: 'bob', bottom: 20, right: 40, delay: '1.5s', opacity: 0.55 },
+      ]} />
       <div className="wrap">
         <div style={{marginBottom: 22, display:'flex', alignItems:'baseline', gap:14, flexWrap:'wrap'}}>
           <span className="eyebrow yellow">Education</span>
@@ -295,21 +255,268 @@ window.Loves = function Loves() {
     <section id="loves" style={{background:'var(--bg-2)', borderTop:'3px solid var(--line)', borderBottom:'3px solid var(--line)'}}>
       <div className="wrap">
         <div style={{marginBottom: 26, display:'flex', alignItems:'baseline', gap:14, flexWrap:'wrap'}}>
-          <span className="eyebrow yellow">Off the clock</span>
+          <span className="eyebrow yellow">Hobbies</span>
           <h2 style={{margin:0}}>Things I love</h2>
         </div>
         <p style={{maxWidth: 540, color:'var(--ink-soft)', marginBottom: 28}}>
           A handful of corners on the internet where you'll find more of me.
         </p>
         <div className="loves-grid">
-          {R.loves.map(l => (
-            <a className="love bouncy" key={l.title} href={l.href} target="_blank" rel="noopener">
-              <div className="emoji" style={{background: l.bg, color: l.fg || 'var(--ink)'}}>{l.emoji}</div>
-              <h4>{l.title}</h4>
-              <p>{l.sub}</p>
-              <div className="arrow">↗</div>
-            </a>
+          {R.loves.map(l => {
+            const isAnchor = l.href && l.href.startsWith('#');
+            return (
+              <a className="love bouncy" key={l.title} href={l.href}
+                 {...(isAnchor ? {} : { target: '_blank', rel: 'noopener' })}>
+                <div className="emoji" style={{background: l.bg, color: l.fg || 'var(--ink)'}}>{l.emoji}</div>
+                <h4>{l.title}</h4>
+                <p>{l.sub}</p>
+                <div className="arrow">{isAnchor ? '↓' : '↗'}</div>
+              </a>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ---------- Running Records ---------- */
+window.Running = function Running() {
+  const R = window.RESUME;
+  if (!R.runs || R.runs.length === 0) return null;
+  return (
+    <section id="running" style={{paddingTop: 70, paddingBottom: 70}}>
+      <Deco shapes={[
+        { size: 90, bg: 'var(--coral)', kind: 'circle', anim: 'float', top: 30, right: 20, delay: '0.8s', opacity: 0.6 },
+        { size: 55, bg: 'var(--yellow)', kind: 'square', anim: 'bob', bottom: 20, left: 30, delay: '2s', opacity: 0.55 },
+        { size: 40, bg: 'var(--mint)', kind: 'diamond', anim: 'float', top: '45%', left: 15, delay: '1.2s', rotate: '45deg', opacity: 0.6 },
+      ]} />
+      <div className="wrap">
+        <div style={{marginBottom: 26, display:'flex', alignItems:'baseline', gap:14, flexWrap:'wrap'}}>
+          <span className="eyebrow mint">Running</span>
+          <h2 style={{margin:0}}>Race records</h2>
+        </div>
+        <p style={{maxWidth: 540, color:'var(--ink-soft)', marginBottom: 28}}>
+          Long &amp; slow — every finish line counts.
+        </p>
+        <div className="runs-grid">
+          {R.runs.map((run, i) => (
+            <div className={`card run-card${run.soon ? ' run-soon' : ''}`} key={i}>
+              <div className="run-emoji">{run.emoji || '🏅'}</div>
+              <div className="run-info">
+                <div className="run-event">{run.event}</div>
+                <div className="run-meta">
+                  <span className="run-distance">{run.distance}</span>
+                  {run.date && <span className="run-date">{run.date}</span>}
+                </div>
+              </div>
+              {run.soon && <div className="run-badge">Coming soon</div>}
+              {run.eslip && (
+                <a className="btn ghost bouncy run-slip" href={run.eslip} target="_blank" rel="noopener">
+                  e-slip ↗
+                </a>
+              )}
+            </div>
           ))}
+        </div>
+      </div>
+      <div className="section-mascot-divider">
+        <img src="images/net-running.png" alt="Net running" className="divider-mascot" />
+        <div className="divider-label">Coming soon...</div>
+      </div>
+    </section>
+  );
+};
+
+/* ---------- YouTube Category ---------- */
+function YTCategory({ cat, limit }) {
+  const [expanded, setExpanded] = useState(false);
+  const visible = expanded ? cat.videos : cat.videos.slice(0, limit);
+  const hasMore = cat.videos.length > limit;
+
+  return (
+    <div className="yt-category">
+      <h3 className="yt-cat-name">{cat.name}</h3>
+      <div className="yt-grid">
+        {visible.map((v, i) => (
+          <a className="card yt-card bouncy" key={i}
+             href={`https://www.youtube.com/watch?v=${v.videoId}`}
+             target="_blank" rel="noopener">
+            <div className="yt-thumb">
+              <img src={`https://img.youtube.com/vi/${v.videoId}/mqdefault.jpg`}
+                   alt={v.title} loading="lazy" />
+              <div className="yt-play">▶</div>
+            </div>
+            <div className="yt-info">
+              <div className="yt-title">{v.title}</div>
+              {v.date && <div className="yt-date">{v.date}</div>}
+            </div>
+          </a>
+        ))}
+      </div>
+      {hasMore && !expanded && (
+        <button className="btn ghost bouncy yt-more" onClick={() => setExpanded(true)}>
+          ดูเพิ่มเติม ({cat.videos.length - limit} วิดีโอ) ↓
+        </button>
+      )}
+    </div>
+  );
+}
+
+/* ---------- YouTube ---------- */
+window.YouTube = function YouTube() {
+  const R = window.RESUME;
+  const yt = R.youtube;
+  if (!yt) return null;
+  const cats = yt.categories || [];
+  const hasVideos = cats.some(c => c.videos && c.videos.length > 0);
+  const limit = yt.previewLimit || 2;
+
+  return (
+    <section id="youtube" style={{background:'var(--bg-2)', borderTop:'3px solid var(--line)', borderBottom:'3px solid var(--line)'}}>
+      <div className="wrap">
+        <div className="yt-header">
+          <div style={{display:'flex', alignItems:'baseline', gap:14, flexWrap:'wrap'}}>
+            <span className="eyebrow coral">YouTube</span>
+            <h2 style={{margin:0}}>On camera</h2>
+          </div>
+          <a className="btn coral bouncy" href={yt.channel} target="_blank" rel="noopener">
+            ▶ Subscribe
+          </a>
+        </div>
+        {hasVideos ? (
+          <div className="yt-categories">
+            {cats.map((cat, i) => (
+              <YTCategory key={i} cat={cat} limit={limit} />
+            ))}
+          </div>
+        ) : (
+          <div className="card yt-empty">
+            <p>No videos yet — but hit subscribe and stay tuned!</p>
+            <a className="btn coral bouncy" href={yt.channel} target="_blank" rel="noopener">
+              ▶ Subscribe @admyhusky
+            </a>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+};
+
+/* ---------- Bookshelf ---------- */
+const BOOK_COLORS = ['var(--coral)', 'var(--mint)', 'var(--yellow)', 'var(--lav)', 'var(--leaf)', 'var(--sky)'];
+
+function BookCategory({ cat, limit }) {
+  const [expanded, setExpanded] = useState(false);
+  const visible = expanded ? cat.books : cat.books.slice(0, limit);
+  const hasMore = cat.books.length > limit;
+  return (
+    <div className="book-category">
+      <h3 className="book-cat-name">{cat.name} <span className="book-count">({cat.books.length} books)</span></h3>
+      <div className="book-grid">
+        {visible.map((b, i) => (
+          <div className="card book-card bouncy" key={i}>
+            <div className="book-cover" style={{background: b.cover ? 'none' : BOOK_COLORS[i % BOOK_COLORS.length]}}>
+              {b.cover
+                ? <img src={b.cover} alt={b.title} className="book-cover-img" loading="lazy" />
+                : <span className="book-cover-text">{b.title}</span>
+              }
+            </div>
+            <div className="book-info">
+              <div className="book-title">{b.title}</div>
+              {b.author && <div className="book-author">{b.author}</div>}
+            </div>
+          </div>
+        ))}
+      </div>
+      {hasMore && !expanded && (
+        <button className="btn ghost bouncy book-more" onClick={() => setExpanded(true)}>
+          Show more ({cat.books.length - limit} books) ↓
+        </button>
+      )}
+    </div>
+  );
+}
+
+window.Bookshelf = function Bookshelf() {
+  const R = window.RESUME;
+  const bk = R.books;
+  if (!bk) return null;
+  const cats = bk.categories || [];
+  const hasBooks = cats.some(c => c.books && c.books.length > 0);
+  const limit = bk.previewLimit || 3;
+  const total = cats.reduce((sum, c) => sum + c.books.length, 0);
+
+  return (
+    <section id="bookshelf" style={{paddingTop: 70, paddingBottom: 70}}>
+      <Deco shapes={[
+        { size: 100, bg: 'var(--lav)', kind: 'circle', anim: 'float', top: 30, right: 30, delay: '0.5s', opacity: 0.6 },
+        { size: 60, bg: 'var(--yellow)', kind: 'square', anim: 'bob', bottom: 40, left: 20, delay: '1.8s', opacity: 0.55 },
+        { size: 45, bg: 'var(--leaf)', kind: 'diamond', anim: 'float', top: '50%', right: 15, delay: '2.5s', rotate: '45deg', opacity: 0.6 },
+      ]} />
+      <div className="wrap">
+        <div style={{marginBottom: 26, display:'flex', alignItems:'baseline', gap:14, flexWrap:'wrap'}}>
+          <span className="eyebrow yellow">Bookshelf</span>
+          <h2 style={{margin:0}}>{total} books finished</h2>
+        </div>
+        {hasBooks ? (
+          <div className="book-categories">
+            {cats.map((cat, i) => (
+              <BookCategory key={i} cat={cat} limit={limit} />
+            ))}
+          </div>
+        ) : (
+          <div className="card book-empty">
+            <p>No books yet — but currently reading!</p>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+};
+
+/* ---------- TCG Collection ---------- */
+window.TCG = function TCG() {
+  const R = window.RESUME;
+  if (!R.tcg || R.tcg.length === 0) return null;
+  return (
+    <section id="tcg" style={{paddingTop: 70, paddingBottom: 70}}>
+      <Deco shapes={[
+        { size: 70, bg: 'var(--mint)', kind: 'circle', anim: 'bob', bottom: 20, left: 25, delay: '0.3s', opacity: 0.6 },
+        { size: 50, bg: 'var(--coral)', kind: 'square', anim: 'float', top: 25, right: 20, delay: '1s', opacity: 0.55 },
+        { size: 35, bg: 'var(--yellow)', kind: 'diamond', anim: 'float', top: '50%', left: 15, delay: '2s', rotate: '45deg', opacity: 0.6 },
+      ]} />
+      <div className="wrap">
+        <div style={{marginBottom: 26, display:'flex', alignItems:'baseline', gap:14, flexWrap:'wrap'}}>
+          <span className="eyebrow lav">Cards</span>
+          <h2 style={{margin:0}}>Cards &amp; corners</h2>
+        </div>
+        <div className="tcg-grid">
+          {R.tcg.map((card, i) => {
+            if (card.soon) {
+              return (
+                <div className="card tcg-card tcg-soon" key={i}>
+                  <div className="tcg-emoji">{card.emoji || '🃏'}</div>
+                  <div className="tcg-info">
+                    <div className="tcg-name">{card.name}</div>
+                    <div className="tcg-sub">Coming soon</div>
+                  </div>
+                  <div className="tcg-badge">Soon</div>
+                </div>
+              );
+            }
+            return (
+              <a className="card tcg-card bouncy" key={i}
+                 href={card.href} target="_blank" rel="noopener">
+                <div className="tcg-emoji">{card.emoji || '🃏'}</div>
+                <div className="tcg-info">
+                  <div className="tcg-name">{card.name}</div>
+                  {card.sub && <div className="tcg-sub">{card.sub}</div>}
+                </div>
+                <div className="arrow">↗</div>
+              </a>
+            );
+          })}
         </div>
       </div>
     </section>
@@ -327,23 +534,52 @@ window.Contact = function Contact() {
             <span className="blob" style={{width:120,height:120,background:'var(--coral)',top:-40,left:-40}}></span>
             <span className="blob" style={{width:90,height:90,background:'var(--mint)',bottom:-30,right:60}}></span>
             <span className="blob" style={{width:60,height:60,background:'var(--yellow)',top:30,right:-20}}></span>
-            <div style={{position:'relative', zIndex:1, maxWidth: 620, textAlign:'left'}}>
-              <span className="eyebrow mint" style={{marginBottom:16}}>Get in touch</span>
-              <h2 style={{marginTop:14}}>Let's build something good.</h2>
-              <p>Free for a chat about backend systems, testing strategy, or a long run. Pick whichever channel works for you.</p>
-              <div className="contact-row contact-row-left">
-                <a className="btn bouncy" href={`mailto:${R.contact.email}`}>📩 {R.contact.email}</a>
-                <a className="btn coral bouncy" href={R.contact.linkedin} target="_blank" rel="noopener">in / LinkedIn</a>
-                <a className="btn ghost bouncy" href={R.contact.github} target="_blank" rel="noopener">◉ GitHub</a>
-                <a className="btn mint bouncy" href={`tel:${R.contact.phoneTel}`}>☎ {R.contact.phone}</a>
+
+            <div className="contact-layout">
+              <div className="contact-main">
+                <span className="eyebrow mint" style={{marginBottom:16}}>Follow me on social media</span>
+                <h2 style={{marginTop:14, color:'var(--bg)'}}>People say nothing is impossible, but I do nothing every day.</h2>
+
+                <div className="contact-socials">
+                  <a className="contact-social-link bouncy" href={`mailto:${R.contact.email}`}>
+                    <span className="ci ci-mail"><img src="https://uxwing.com/wp-content/themes/uxwing/download/communication-chat-call/email-round-icon.png" alt="Email" className="ci-icon" /></span>
+                    <span>Email</span>
+                  </a>
+                  <a className="contact-social-link bouncy" href={R.contact.linkedin} target="_blank" rel="noopener">
+                    <span className="ci ci-in"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/linkedin/linkedin-original.svg" alt="LinkedIn" className="ci-icon" /></span>
+                    <span>LinkedIn</span>
+                  </a>
+                  <a className="contact-social-link bouncy" href={R.contact.github} target="_blank" rel="noopener">
+                    <span className="ci ci-gh"><img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/github-white-icon.png" alt="GitHub" className="ci-icon" /></span>
+                    <span>GitHub</span>
+                  </a>
+                  <a className="contact-social-link bouncy" href={R.contact.facebook} target="_blank" rel="noopener">
+                    <span className="ci ci-fb"><img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/facebook-app-round-white-icon.png" alt="Facebook" className="ci-icon" /></span>
+                    <span>Facebook</span>
+                  </a>
+                  <a className="contact-social-link bouncy" href={R.contact.instagram} target="_blank" rel="noopener">
+                    <span className="ci ci-ig"><img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/instagram-white-icon.png" alt="Instagram" className="ci-icon" /></span>
+                    <span>@netbearrrr</span>
+                  </a>
+                  <a className="contact-social-link bouncy" href={R.contact.youtube} target="_blank" rel="noopener">
+                    <span className="ci ci-yt"><img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/youtube-app-white-icon.png" alt="YouTube" className="ci-icon" /></span>
+                    <span>YouTube</span>
+                  </a>
+                  <a className="contact-social-link bouncy" href={R.contact.spotify} target="_blank" rel="noopener">
+                    <span className="ci ci-spotify"><img src="https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Primary_Logo_RGB_White.png" alt="Spotify" className="ci-icon" /></span>
+                    <span>Spotify</span>
+                  </a>
+                </div>
+              </div>
+
+              <div className="contact-side">
+                <div className="donate-box">
+                  <img src="images/promptpay-qr.png" alt="PromptPay QR" className="donate-qr" />
+                  <p className="donate-label">☕ Support via PromptPay</p>
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Thumbs-up mascot peeks out of the card */}
-          <div className="contact-mascot">
-            <span className="contact-bubble">Thanks for scrolling! 👍</span>
-            <img src="images/net-thumbs.png" alt="Net giving a thumbs up" draggable="false"/>
           </div>
         </div>
       </div>

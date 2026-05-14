@@ -46,35 +46,36 @@ window.RESUME = {
     linkedin: 'https://www.linkedin.com/in/kanet-kampiranon',
     github: 'https://github.com/NetKanet',
     site: 'https://admyhusky.dev',
+    facebook: 'https://www.facebook.com/net.kanet.2024',
+    instagram: 'https://www.instagram.com/netbearrrr/',
+    youtube: 'https://www.youtube.com/@admyhusky8063',
+    spotify: 'https://open.spotify.com/user/31zp5qtkmnnho44uzcfk6o2gpagi?si=9583f0e032134e3f',
   },
 
-  // Skills grouped by category — order is preserved, easy to extend
+  // Skills grouped by category — icon = devicon URL, tag = text fallback
+  // Browse icons at https://devicon.dev
   skills: [
     {
       group: 'Languages',
-      ico: '⌘',
       color: 'var(--coral)',
       items: [
-        { name: 'Java',   tag: 'JV' },
-        { name: 'Kotlin', tag: 'KT' },
-        { name: 'Python', tag: 'PY' },
-        { name: 'SQL',    tag: 'SQL' },
+        { name: 'Java',   icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg' },
+        { name: 'Kotlin', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/kotlin/kotlin-original.svg' },
+        { name: 'Python', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg' },
+        { name: 'SQL',    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/azuresqldatabase/azuresqldatabase-original.svg' },
       ],
     },
     {
       group: 'Frameworks',
-      ico: '◭',
       color: 'var(--leaf)',
       items: [
-        { name: 'Spring Boot',  tag: 'SB' },
-        { name: 'Spring Batch', tag: 'SBa' },
-        { name: 'JUnit',        tag: 'JU' },
-        { name: 'Mockito',      tag: 'Mk' },
+        { name: 'Spring Boot', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/spring/spring-original.svg' },
+        { name: 'JUnit',       icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/junit/junit-original.svg' },
+        { name: 'Mockito',     tag: 'Mk' },
       ],
     },
     {
       group: 'Automation & Testing',
-      ico: '✓',
       color: 'var(--mint)',
       items: [
         { name: 'Robot Framework', tag: 'RF' },
@@ -83,14 +84,24 @@ window.RESUME = {
       ],
     },
     {
+      group: 'Currently Learning',
+      color: 'var(--sky)',
+      learning: true,
+      items: [
+        { name: 'Flutter', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/flutter/flutter-original.svg' },
+        { name: 'Dart',    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/dart/dart-original.svg' },
+      ],
+    },
+    {
       group: 'Cloud & Infrastructure',
-      ico: '☁',
       color: 'var(--lav)',
       items: [
-        { name: 'AWS S3',     tag: 'S3' },
-        { name: 'AWS RDS',    tag: 'RDS' },
+        { name: 'AWS',        icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-original-wordmark.svg' },
+        { name: 'Redis',      icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/redis/redis-original.svg' },
+        { name: 'Docker',     icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg' },
         { name: 'OpenSearch', tag: 'OS' },
-        { name: 'Grafana',    tag: 'Gf' },
+        { name: 'Grafana',    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/grafana/grafana-original.svg' },
+        { name: 'Git',        icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg' },
       ],
     },
   ],
@@ -142,11 +153,119 @@ window.RESUME = {
   ],
 
   loves: [
-    { title: 'YouTube',        sub: '@admyhusky',          emoji: '▶', bg: 'var(--coral)',  fg: '#fff', href: 'https://www.youtube.com/@admyhusky8063' },
-    { title: 'Bookshelf',      sub: 'currently reading',   emoji: '📚', bg: 'var(--yellow)', href: 'https://link.bookshelfapp.info/YerIdAswxv' },
-    { title: 'Running',        sub: 'long & slow',         emoji: '🏃', bg: 'var(--mint)',   href: 'https://admyhusky.dev/running.html' },
-    { title: 'TCG Collection', sub: 'cards & corners',     emoji: '🃏', bg: 'var(--lav)',    href: 'https://admyhusky.dev/tcg.html' },
+    { title: 'Bookshelf',      sub: 'currently reading',   emoji: '📚', bg: 'var(--yellow)', href: '#bookshelf' },
+    { title: 'Running',        sub: 'long & slow',         emoji: '🏃', bg: 'var(--mint)',   href: '#running' },
+    { title: 'TCG Collection', sub: 'cards & corners',     emoji: '🃏', bg: 'var(--lav)',    href: '#tcg' },
     { title: 'Digital Garden', sub: 'thoughts & notes',    emoji: '🌱', bg: 'var(--leaf)',   href: 'https://garden.admyhusky.dev' },
-    { title: 'GitHub',         sub: '@NetKanet',           emoji: '◉', bg: '#fff',          href: 'https://github.com/NetKanet' },
+  ],
+
+  // Running records — add new entries at the top when you finish a race
+  runs: [
+    {
+      event: 'TCP — SPONSOR RUN: RUN TO REFRESH',
+      distance: '10K',
+      date: '2 Nov 2025',
+      emoji: '🏆',
+      eslip: 'https://eslip.primeworks.asia/?r=b424x2v224039494',
+    },
+  ],
+
+  // YouTube — grouped by category, max 3 shown per category (rest behind "ดูเพิ่มเติม")
+  // videoId = the part after youtube.com/watch?v=
+  youtube: {
+    channel: 'https://www.youtube.com/@admyhusky8063',
+    previewLimit: 2,
+    categories: [
+      {
+        name: 'Dead by Daylight',
+        videos: [
+          { title: 'ขอเป็นพระเอกในหัวใจเธอ', videoId: 'REPLACE_ME_1', date: '6 ปีที่แล้ว' },
+          { title: 'ผู้ชมทางบ้าน #1', videoId: 'REPLACE_ME_2', date: '5 ปีที่แล้ว' },
+        ],
+      },
+      {
+        name: 'Talesrunner',
+        videos: [
+          { title: 'ครูพี่ Netto', videoId: 'REPLACE_ME_3', date: '6 ปีที่แล้ว' },
+          { title: 'นิทานก่อนนอน', videoId: 'REPLACE_ME_4', date: '5 ปีที่แล้ว' },
+        ],
+      },
+      {
+        name: 'Valorant',
+        videos: [
+          { title: 'If you have communicate...', videoId: 'REPLACE_ME_5', date: '4 ปีที่แล้ว' },
+        ],
+      },
+    ],
+  },
+
+  // Bookshelf — grouped by year finished (newest first)
+  books: {
+    previewLimit: 3,
+    categories: [
+      {
+        name: '2026',
+        books: [
+          { title: 'Ghost Me Free WiFi หลอกได้แต่จ่ายด้วย', author: 'สีพรำ', dateEnd: '2026-03-31' },
+          { title: 'เฮาส์เมด : The Housemaid', author: 'Freida McFadden (ฟรีดา แมกแฟดเดน)', dateEnd: '2026-03-17' },
+        ],
+      },
+      {
+        name: '2025',
+        books: [
+          { title: 'กาสักอังก์ฆาต', author: 'กิตติศักดิ์ คงคา', dateEnd: '2025-10-30' },
+          { title: 'นักตั้งเวลาตาย : The Night Stalker', author: 'Chris Carter', dateEnd: '2025-04-18' },
+          { title: 'เลขเพชฌฆาต : The Executioner', author: 'Chris Carter', dateEnd: '2025-04-04' },
+          { title: 'ฆาตกรกางเขนคู่ : The Crucifix Killer', author: 'Chris Carter', dateEnd: '2025-03-21' },
+          { title: 'ปริศนาเรือโนอาห์ปิดตาย', author: 'Haruo Yuuki (ฮารุโอะ ยูกิ)', dateEnd: '2025-03-06' },
+          { title: 'ใช้คลื่นพลังบวกดึงดูดพลังสุข Good Vibes, Good Life', author: 'เว็กซ์ คิงส์', dateEnd: '2025-02-05' },
+          { title: 'Untitled Case: Human Horror ชมรมคนหัวลุก', author: 'ยชญ์ บรรพพงศ์, ธัญวัฒน์ อิพภูดม', dateEnd: '2025-01-01' },
+        ],
+      },
+      {
+        name: '2024',
+        books: [
+          { title: 'ทำไมคนที่ทำงานเก่งที่สุดถึงใช้สมุดกราฟ', author: 'ทะคะฮะชิ มะซะฟุมิ', dateEnd: '2024-12-30' },
+          { title: 'ฆาตกรมนุษย์กบกับศพปริศนา 連续殺人鬼 カエル男', author: 'ชิจิริ นากายามะ', dateEnd: '2024-11-21' },
+          { title: 'บ้านวิกลคนประหลาด เล่ม 2', author: 'อุเก็ตสึ', dateEnd: '2024-10-24' },
+          { title: 'LE HORLA', author: '', dateEnd: '2024-10-22' },
+          { title: 'เพราะชีวิตดีได้กว่าที่เป็น Atomic Habits', author: 'เจมส์ เคลียร์', dateEnd: '2024-10-14' },
+          { title: 'สัมผัสที่โหด Untitled Case : Sick Sense', author: 'ยชญ์ บรรพพงศ์ / ธัญวัฒน์ อิพภูดม', dateEnd: '2024-09-24' },
+          { title: 'You ghost me every sadturday night', author: 'ธนชาติ ศิริภัทราชัย', dateEnd: '2024-09-24' },
+          { title: 'เพราะแมวแฟรงกี้ ผมจึงอยากมีชีวิตต่อไปอีกหน่อย Frankie', author: 'ย็อคเคิน กูทช์ / มักซิม เลโอ', dateEnd: '2024-04-16' },
+          { title: 'มหัศจรรย์ห้องสมุดเที่ยงคืน The Midnight Library', author: 'แมตต์ เฮก (Matt Haig)', dateEnd: '2024-04-14' },
+          { title: 'เธอคู่ควรกับความรักที่ดีเสมอ', author: 'วินนี่', dateEnd: '2024-03-12' },
+          { title: 'ร้านชําสําหรับคนอยากตาย', author: 'ฌอง เติลเล่', dateEnd: '2024-02-10' },
+        ],
+      },
+      {
+        name: '2023',
+        books: [
+          { title: 'แมวตื่นสายมักจะโดนแมวตื่นเช้าคิดถึงก่อนเสมอ', author: 'ใบพัด นบน้อม', dateEnd: '2023-12-29' },
+          { title: 'ภาพวาดปริศนากับการตามหาฆาตกร', author: 'อุเก็ตสึ', dateEnd: '2023-12-24' },
+          { title: 'บ้านวิกลคนประหลาด', author: 'อุเก็ตสึ', dateEnd: '2023-12-08' },
+          { title: 'ทุกอย่างในชีวิต เริ่มจากความคิดที่เป็นระเบียบ', author: 'Bok Joo Hwan (พกจูฮวัน)', dateEnd: '2023-12-06' },
+        ],
+      },
+    ],
+  },
+
+  // TCG Collection — add entries when you get new decks/achievements
+  tcg: [
+    {
+      name: 'Battle of Talingchan',
+      emoji: '✨',
+      href: 'https://bangbon.app/profile/wcz9JZ2YfKDsN8iV6LhOWoigT1WT8flm',
+    },
+    {
+      name: 'One Piece Card Game',
+      emoji: '🏴‍☠️',
+      soon: true,
+    },
+    {
+      name: 'Pokémon TCG',
+      emoji: '⚡',
+      soon: true,
+    },
   ],
 };

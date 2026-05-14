@@ -16,26 +16,48 @@ const DISC_COLORS = {
   sky:    { val: 'var(--sky)',    label: 'Sky' },
 };
 
-// Page registry — single source of truth for routes and nav order.
-const PAGES = [
-  { id: 'home',    label: 'Home',    href: 'index.html'    },
-  { id: 'about',   label: 'About',   href: 'about.html'    },
-  { id: 'work',    label: 'Work',    href: 'work.html'     },
-  { id: 'edu',     label: 'Edu',     href: 'edu.html'      },
-  { id: 'contact', label: 'Contact', href: 'contact.html'  },
+const NAV_SECTIONS = [
+  { id: 'about',     label: 'About' },
+  { id: 'loves',     label: 'Hobbies' },
+  { id: 'running',   label: 'Running' },
+  { id: 'bookshelf', label: 'Bookshelf' },
+  { id: 'tcg',       label: 'Cards' },
+  { id: 'contact',   label: 'Follow' },
 ];
 
-function Nav({ current }) {
+function Nav({ activeId }) {
   return (
     <nav className="nav">
       <div className="nav-inner">
-        <a className="brand" href="index.html">Net 🐺</a>
-        {PAGES.filter(p => p.id !== 'home').map(p => (
-          <a key={p.id} href={p.href} className={current === p.id ? 'is-current' : ''}>{p.label}</a>
+        <a className="brand" href="#top">Net 🐺</a>
+        {NAV_SECTIONS.map(s => (
+          <a key={s.id} href={`#${s.id}`} className={activeId === s.id ? 'is-current' : ''}>{s.label}</a>
         ))}
       </div>
     </nav>
   );
+}
+
+function useScrollSpy(ids) {
+  const [activeId, setActiveId] = useState(null);
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter(e => e.isIntersecting);
+        if (visible.length > 0) {
+          visible.sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+          setActiveId(visible[0].target.id);
+        }
+      },
+      { rootMargin: '-30% 0px -60% 0px' }
+    );
+    ids.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+    return () => observer.disconnect();
+  }, []);
+  return activeId;
 }
 
 function FloatingShapes() {
@@ -57,46 +79,22 @@ function FloatingShapes() {
   );
 }
 
-// Page-header: title + breadcrumb + small character mascot for non-home pages.
-function PageHeader({ title, subtitle, eyebrow, eyebrowColor='coral', mascot='calm', accent }) {
-  return (
-    <section className="page-header">
-      <div className="wrap">
-        <div className="page-header-grid">
-          <div>
-            <a className="back-home" href="index.html">← back to home</a>
-            <span className={`eyebrow ${eyebrowColor}`} style={{marginTop:14, marginBottom:14}}>{eyebrow || title}</span>
-            <h1 className="page-title">{title}</h1>
-            {subtitle && <p className="page-subtitle">{subtitle}</p>}
-          </div>
-          <div className="page-mascot">
-            <window.MiniCharacter expression={mascot} accent={accent} />
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function App() {
   const [tweaks, setTweak] = window.useTweaks(TWEAK_DEFAULTS);
   const [bubble, setBubble] = useState("Hi! I'm Net 👋");
-  const page = window.PAGE_ID || 'home';
+  const activeId = useScrollSpy(['top', ...NAV_SECTIONS.map(s => s.id)]);
 
-  // bob speed
   useEffect(() => {
     document.documentElement.style.setProperty('--bob-speed', tweaks.bobSpeed + 's');
   }, [tweaks.bobSpeed]);
 
-  // Rotate the speech bubble every few seconds on home
   useEffect(() => {
-    if (page !== 'home') return;
     const pool = window.BUBBLES.intro;
     const id = setInterval(() => {
       setBubble(pool[Math.floor(Math.random()*pool.length)]);
     }, 4500);
     return () => clearInterval(id);
-  }, [page]);
+  }, []);
 
   const accent = DISC_COLORS[tweaks.accentDisc]?.val || 'var(--mint)';
 
@@ -105,74 +103,19 @@ function App() {
       <div className="backdrop" data-pattern={tweaks.pattern}></div>
       {tweaks.showShapes && <FloatingShapes />}
 
-      <Nav current={page} />
+      <Nav activeId={activeId} />
 
-      <main className={`page page-${page}`}>
-        {page === 'home' && (
-          <>
-            <window.Hero bubble={bubble} accent={accent} />
-            <window.Loves />
-          </>
-        )}
-
-        {page === 'about' && (
-          <>
-            <PageHeader
-              eyebrow="About me"
-              title="A little more about me."
-              subtitle="The short version of my résumé — pulled from data.js so it's easy to keep up to date."
-              mascot="proud"
-              accent="var(--coral)"
-              eyebrowColor="coral"
-            />
-            <window.About accent="var(--coral)" hideHeader={true} />
-          </>
-        )}
-
-        {page === 'work' && (
-          <>
-            <PageHeader
-              eyebrow="Work history"
-              title="Where I've been."
-              subtitle="A few teams across banking, fintech, and telecom — all backend, mostly JVM."
-              mascot="calm"
-              accent="var(--lav)"
-              eyebrowColor="lav"
-            />
-            <window.Experience hideHeader={true} />
-          </>
-        )}
-
-        {page === 'edu' && (
-          <>
-            <PageHeader
-              eyebrow="Education"
-              title="School days."
-              subtitle="Where it all started — and where I got hooked on distributed systems."
-              mascot="content"
-              accent="var(--yellow)"
-              eyebrowColor="yellow"
-            />
-            <window.Education hideHeader={true} />
-          </>
-        )}
-
-        {page === 'contact' && (
-          <>
-            <PageHeader
-              eyebrow="Get in touch"
-              title="Let's chat."
-              subtitle="Always up for a conversation about backend systems, testing strategy, or a long run."
-              mascot="thumbs"
-              accent="var(--mint)"
-              eyebrowColor="mint"
-            />
-            <window.Contact hideHeader={true} />
-          </>
-        )}
+      <main className="page">
+        <window.Hero bubble={bubble} accent={accent} />
+        <window.About accent={accent} />
+        <window.Loves />
+        <window.Running />
+        <window.Bookshelf />
+        <window.TCG />
+        <window.Contact />
 
         <footer className="foot wrap">
-          Made with too much caffeine · © {new Date().getFullYear()} {window.RESUME.name} · admyhusky.dev
+          Made with too much caffeine · © {new Date().getFullYear()} {window.RESUME.name}
         </footer>
       </main>
 
