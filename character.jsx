@@ -9,7 +9,6 @@ const EXPRESSIONS = {
   wink:    'images/net-wink.png',     // wink + music bubble
   laugh:   'images/net-laugh.png',    // big laugh, eyes closed
   proud:   'images/net-roses.png',    // arms-crossed wink with roses (about)
-  thumbs:  'images/net-thumbs.png',   // thumbs-up wink (contact)
   reading: 'images/net-reading.png',  // reading pose (learning)
 };
 

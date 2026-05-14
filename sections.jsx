@@ -39,8 +39,8 @@ window.Hero = function Hero({ bubble, accent }) {
     <section className="hero" id="top">
       <div className="wrap">
         <div className="hero-grid">
-          <div>
-            <span className="eyebrow">
+          <div className="hero-head">
+            <span className="hero-status">
               <span className="dot-pulse"></span>
               {R.currentCompany
                 ? `Currently @ ${R.currentCompany}`
@@ -51,6 +51,15 @@ window.Hero = function Hero({ bubble, accent }) {
               <span className="hi">Hi! I'm</span>{' '}
               <span className="name">{R.nickname}</span>
             </h1>
+          </div>
+
+          <window.Character
+            expressionOverride={learningHover ? 'reading' : undefined}
+            bubbleOverride={techHover || bubble}
+            accent={accent}
+          />
+
+          <div className="hero-body">
             <p className="hero-sub">
               <b>{R.title}</b> from {R.location}. {R.tagline}
             </p>
@@ -63,8 +72,6 @@ window.Hero = function Hero({ bubble, accent }) {
                   <img src={s.icon} alt={s.name} />
                 </div>
               ))}
-            </div>
-            <div className="hero-tech hero-tech-row2">
               {R.skills.filter(g => g.learning).flatMap(g => g.items).filter(s => s.icon).map(s => (
                 <div className="hero-tech-icon hero-tech-learning bouncy" key={s.name} data-name={s.name + ' (learning)'}
                   onMouseEnter={() => { setTechHover(s.name + ' 📖 learning'); setLearningHover(true); }}
@@ -78,14 +85,7 @@ window.Hero = function Hero({ bubble, accent }) {
               <a className="btn bouncy" href="#about">Read more <span aria-hidden="true">↓</span></a>
               <a className="btn ghost bouncy" href="#contact">Follow me</a>
             </div>
-
           </div>
-
-          <window.Character
-            expressionOverride={learningHover ? 'reading' : undefined}
-            bubbleOverride={techHover || bubble}
-            accent={accent}
-          />
         </div>
       </div>
     </section>
@@ -96,34 +96,23 @@ window.Hero = function Hero({ bubble, accent }) {
 window.About = function About({ accent }) {
   const R = window.RESUME;
   const P = R.aboutPersonal || {};
-  const [open, setOpen] = useState(false);
-  const cardRef = useRef(null);
 
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e) => { if (e.key === 'Escape') setOpen(false); };
-    document.body.style.overflow = 'hidden';
-    window.addEventListener('keydown', onKey);
-    return () => {
-      document.body.style.overflow = '';
-      window.removeEventListener('keydown', onKey);
-    };
-  }, [open]);
-
-  const cardContent = (isModal) => (
+  const cardContent = () => (
     <div className="about-personal-grid">
-      <div>
+      <div className="about-personal-head">
         <span className="eyebrow yellow" style={{marginBottom: 12}}>👋 Hi there</span>
         <h3 className="about-personal-title">{P.heading}</h3>
+      </div>
+      <div className="about-personal-mascot">
+        <window.AboutMascot accent={accent} />
+      </div>
+      <div className="about-personal-text">
         <p className="about-personal-body">{P.body}</p>
         {P.chips && (
           <div className="about-chips">
             {P.chips.map(c => <span key={c.label} className="about-chip">{c.label}</span>)}
           </div>
         )}
-      </div>
-      <div className="about-personal-mascot">
-        <window.AboutMascot accent={accent} />
       </div>
     </div>
   );
@@ -136,23 +125,12 @@ window.About = function About({ accent }) {
         </div>
 
         {P.heading && (
-          <div className="card about-personal about-personal-clickable" ref={cardRef}
-               onClick={() => setOpen(true)}>
-            {cardContent(false)}
+          <div className="card about-personal">
+            {cardContent()}
           </div>
         )}
 
       </div>
-
-      {open && ReactDOM.createPortal(
-        <div className="about-modal-overlay" onClick={() => setOpen(false)}>
-          <div className="about-modal" onClick={(e) => e.stopPropagation()}>
-            <button className="about-modal-close" onClick={() => setOpen(false)} aria-label="Close">✕</button>
-            {cardContent(true)}
-          </div>
-        </div>,
-        document.body
-      )}
     </section>
   );
 };
@@ -569,9 +547,12 @@ window.Contact = function Contact() {
             <span className="blob" style={{width:60,height:60,background:'var(--yellow)',top:30,right:-20}}></span>
 
             <div className="contact-layout">
+              <div className="contact-eyebrow-row">
+                <span className="eyebrow mint">Follow me on social media</span>
+              </div>
+
               <div className="contact-main">
-                <span className="eyebrow mint" style={{marginBottom:16}}>Follow me on social media</span>
-                <h2 style={{marginTop:14, color:'var(--bg)'}}>People say nothing is impossible, but I do nothing every day.</h2>
+                <h2 style={{marginTop:0, color:'var(--bg)'}}>People say nothing is impossible, but I do nothing every day.</h2>
 
                 <div className="contact-socials contact-socials-icons">
                   <a className="contact-icon bouncy" href={R.contact.linkedin} target="_blank" rel="noopener" aria-label="LinkedIn" style={{background:'#0A66C2'}}>

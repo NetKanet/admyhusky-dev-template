@@ -25,14 +25,46 @@ const NAV_SECTIONS = [
   { id: 'contact',   label: 'Follow' },
 ];
 
+function useHideOnScroll() {
+  const [hidden, setHidden] = useState(false);
+  const lastY = useRef(0);
+  useEffect(() => {
+    function onScroll() {
+      const y = window.scrollY;
+      setHidden(y > 80 && y > lastY.current);
+      lastY.current = y;
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+  return hidden;
+}
+
 function Nav({ activeId }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const navHidden = useHideOnScroll();
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const close = () => setMenuOpen(false);
+    window.addEventListener('resize', close);
+    return () => window.removeEventListener('resize', close);
+  }, [menuOpen]);
+
   return (
-    <nav className="nav">
+    <nav className={`nav${navHidden && !menuOpen ? ' nav-hidden' : ''}`}>
       <div className="nav-inner">
         <a className="brand" href="#top">Net</a>
-        {NAV_SECTIONS.map(s => (
-          <a key={s.id} href={`#${s.id}`} className={activeId === s.id ? 'is-current' : ''}>{s.label}</a>
-        ))}
+        <button className="nav-burger" aria-label="Menu" onClick={() => setMenuOpen(o => !o)}>
+          <span className={menuOpen ? 'burger-line open' : 'burger-line'} />
+        </button>
+        <div className={`nav-links${menuOpen ? ' nav-links-open' : ''}`}>
+          {NAV_SECTIONS.map(s => (
+            <a key={s.id} href={`#${s.id}`}
+               className={activeId === s.id ? 'is-current' : ''}
+               onClick={() => setMenuOpen(false)}>{s.label}</a>
+          ))}
+        </div>
       </div>
     </nav>
   );
@@ -101,11 +133,11 @@ function App() {
   return (
     <>
       <div className="backdrop" data-pattern={tweaks.pattern}></div>
-      {tweaks.showShapes && <FloatingShapes />}
 
       <Nav activeId={activeId} />
 
       <main className="page">
+        {tweaks.showShapes && <FloatingShapes />}
         <window.Hero bubble={bubble} accent={accent} />
         <window.About accent={accent} />
         <window.Loves />
