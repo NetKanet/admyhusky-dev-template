@@ -1517,26 +1517,11 @@ section { padding: 90px 0; position: relative; overflow: hidden; }
   border-bottom: var(--b) solid var(--line);
   transform: rotate(45deg);
 }
-.claude-bubble-mobile { display: none; }
-
 @media (max-width: 880px) {
-  .claude-peek {
-    margin-top: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-  }
-  .claude-bob { width: 80px; }
-  .claude-bubble-desktop { display: none; }
-  .claude-bubble-mobile {
-    display: block;
-    font-size: 12px;
-    padding: 8px 14px;
-    border-radius: 14px;
-    margin-bottom: 0;
-  }
-  .claude-bubble-mobile::after { display: none; }
+  .claude-peek { margin-top: 12px; display: flex; justify-content: center; }
+  .claude-bob { width: auto; }
+  .claude-img { width: 80px; }
+  .claude-bubble { font-size: 12px; padding: 7px 13px; }
   .contact-layout {
     flex-direction: column;
     text-align: center;
@@ -1555,8 +1540,8 @@ section { padding: 90px 0; position: relative; overflow: hidden; }
   .contact-socials-icons { gap: 8px; justify-content: center; flex-wrap: nowrap; }
   .contact-card h2 { font-size: clamp(17px, 4.5vw, 22px); margin-top: 0; }
   .contact-card .eyebrow { font-size: 12px; padding: 5px 14px; }
-  .claude-bob { width: 60px; }
-  .claude-bubble-mobile { font-size: 11px; padding: 6px 12px; }
+  .claude-img { width: 60px; }
+  .claude-bubble { font-size: 11px; padding: 6px 12px; }
 }
 @media (max-width: 400px) {
   .contact-icon { width: 34px; height: 34px; }

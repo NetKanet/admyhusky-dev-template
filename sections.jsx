@@ -620,10 +620,9 @@ window.Contact = function Contact() {
 
           <div className="claude-peek">
             <div className="claude-bob">
-              <div className="claude-bubble claude-bubble-desktop">Yeah, he made me build this.</div>
+              <div className="claude-bubble">Yeah, he made me build this.</div>
               <img src="images/claude-coffee.png" alt="Claude with coffee" className="claude-img" draggable="false" />
             </div>
-            <div className="claude-bubble claude-bubble-mobile">Yeah, he made me build this.</div>
           </div>
 
         </div>
