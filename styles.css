@@ -1470,6 +1470,7 @@ section { padding: 90px 0; position: relative; overflow: hidden; }
   color: rgba(255,248,231,.7);
   margin-top: 12px;
   margin-bottom: 0;
+  white-space: nowrap;
 }
 
 /* Claude peek mascot */
@@ -1534,7 +1535,7 @@ section { padding: 90px 0; position: relative; overflow: hidden; }
 @media (max-width: 560px) {
   .donate-qr { width: 120px; height: 120px; }
   .donate-box { padding: 16px 16px 12px; }
-  .donate-label { font-size: 12px; }
+  .donate-label { font-size: clamp(10px, 2.8vw, 12px); }
   .contact-icon { width: 38px; height: 38px; }
   .contact-icon img { width: 18px; height: 18px; }
   .contact-socials-icons { gap: 8px; justify-content: center; flex-wrap: nowrap; }
