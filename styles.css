@@ -439,12 +439,22 @@ section { padding: 90px 0; position: relative; overflow: hidden; }
 }
 .about-mascot-img {
   position: absolute;
-  inset: 4%;
+  inset: -8% 4% 4% 4%;
   width: 92%;
-  height: 92%;
-  object-fit: contain;
-  object-position: center;
+  height: 104%;
+  object-fit: cover;
+  object-position: top center;
   filter: drop-shadow(0 12px 0 rgba(27,27,58,.18));
+}
+.about-mascot-img-anim {
+  position: absolute;
+  inset: -8% 4% 4% 4%;
+  width: 92%;
+  height: 104%;
+  object-fit: cover;
+  object-position: top center;
+  filter: drop-shadow(0 12px 0 rgba(27,27,58,.18));
+  pointer-events: none;
 }
 .sparkle {
   position: absolute;
@@ -459,27 +469,30 @@ section { padding: 90px 0; position: relative; overflow: hidden; }
 }
 .about-bubble {
   position: absolute;
-  bottom: 4%;
-  right: -10px;
+  top: -4px;
+  right: -36px;
   background: #fff;
   border: var(--b) solid var(--line);
   border-radius: 22px;
-  padding: 10px 16px;
+  padding: 10px 18px;
   font-family: 'Fredoka', sans-serif;
   font-weight: 600;
   font-size: 15px;
   box-shadow: var(--shadow);
   z-index: 3;
   animation: bubblePop .5s cubic-bezier(.34,1.56,.64,1);
+  white-space: nowrap;
+  min-width: 120px;
+  text-align: center;
 }
 .about-bubble::after {
   content: '';
   position: absolute;
-  left: 24px; top: -14px;
-  width: 22px; height: 22px;
+  left: 18px; bottom: -12px;
+  width: 18px; height: 18px;
   background: #fff;
-  border-left: var(--b) solid var(--line);
-  border-top: var(--b) solid var(--line);
+  border-right: var(--b) solid var(--line);
+  border-bottom: var(--b) solid var(--line);
   transform: rotate(45deg);
 }
 
@@ -759,26 +772,29 @@ section { padding: 90px 0; position: relative; overflow: hidden; }
 
 .character-bubble {
   position: absolute;
-  top: 6%; right: -10px;
-  background: linear-gradient(135deg, #fff 0%, #f0f7ff 100%);
+  top: 12%;
+  right: 2%;
+  background: #fff;
   border: var(--b) solid var(--line);
   border-radius: 22px;
-  padding: 12px 18px;
+  padding: 10px 18px;
   font-family: 'Fredoka', sans-serif;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 15px;
   color: var(--ink);
-  box-shadow: 4px 4px 0 var(--line), 0 8px 20px -6px rgba(27,27,58,.15);
+  box-shadow: var(--shadow);
   white-space: nowrap;
+  min-width: 120px;
+  text-align: center;
   z-index: 3;
-  animation: bubblePop .35s cubic-bezier(.34,1.56,.64,1), bubbleFloat 3s ease-in-out infinite .4s;
+  animation: bubblePop .35s cubic-bezier(.34,1.56,.64,1);
 }
 .character-bubble::after {
   content: '';
   position: absolute;
-  left: 24px; bottom: -14px;
+  left: 14px; bottom: -14px;
   width: 22px; height: 22px;
-  background: linear-gradient(135deg, #f0f7ff, #f0f7ff);
+  background: #fff;
   border-right: var(--b) solid var(--line);
   border-bottom: var(--b) solid var(--line);
   transform: rotate(45deg);
@@ -1455,7 +1471,57 @@ section { padding: 90px 0; position: relative; overflow: hidden; }
   margin-top: 12px;
   margin-bottom: 0;
 }
+
+/* Claude peek mascot */
+.claude-peek {
+  margin-top: -60px;
+  position: relative;
+  z-index: 4;
+  pointer-events: none;
+}
+.claude-bob {
+  position: relative;
+  width: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: bob var(--bob-speed, 3.4s) ease-in-out infinite;
+}
+.claude-img {
+  width: 100%;
+  filter: drop-shadow(0 6px 0 rgba(27,27,58,.2));
+}
+.claude-bubble {
+  position: relative;
+  background: #fff;
+  border: var(--b) solid var(--line);
+  border-radius: 18px;
+  padding: 8px 14px;
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--ink);
+  box-shadow: var(--shadow);
+  white-space: nowrap;
+  margin-bottom: 6px;
+  animation: bubblePop .5s cubic-bezier(.34,1.56,.64,1);
+}
+.claude-bubble::after {
+  content: '';
+  position: absolute;
+  left: 50%; bottom: -10px;
+  margin-left: -7px;
+  width: 14px; height: 14px;
+  background: #fff;
+  border-right: var(--b) solid var(--line);
+  border-bottom: var(--b) solid var(--line);
+  transform: rotate(45deg);
+}
+
 @media (max-width: 880px) {
+  .claude-peek { margin-top: 12px; display: flex; justify-content: center; }
+  .claude-bob { width: 110px; }
+  .claude-bubble { font-size: 12px; padding: 7px 13px; }
   .contact-layout {
     flex-direction: column;
     text-align: center;
@@ -1474,6 +1540,9 @@ section { padding: 90px 0; position: relative; overflow: hidden; }
   .contact-socials-icons { gap: 8px; justify-content: center; flex-wrap: nowrap; }
   .contact-card h2 { font-size: clamp(17px, 4.5vw, 22px); margin-top: 0; }
   .contact-card .eyebrow { font-size: 12px; padding: 5px 14px; }
+  .claude-peek { margin-top: 10px; display: flex; justify-content: center; }
+  .claude-bob { width: 80px; }
+  .claude-bubble { font-size: 11px; padding: 6px 12px; }
 }
 @media (max-width: 400px) {
   .contact-icon { width: 34px; height: 34px; }

@@ -130,9 +130,20 @@ window.About = function About({ accent }) {
 };
 
 /* ---------- About Mascot — bobbing rose character with sparkles ---------- */
+const ABOUT_ANIM = [
+  { src: 'images/net-shocked.png', duration: 800 },
+  { src: 'images/net-laugh.png',   duration: 900 },
+  { src: 'images/net-wink.png',    duration: 900 },
+];
+const ABOUT_BUBBLES = ['!?', 'hee 😆', '♪♪'];
+
 window.AboutMascot = function AboutMascot({ accent }) {
   const stageRef = useRef(null);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const [animSrc, setAnimSrc] = useState(null);
+  const [bubbleText, setBubbleText] = useState('Nice to meet you! 🌹');
+  const [bubbleKey, setBubbleKey] = useState(0);
+  const playing = useRef(false);
 
   useEffect(() => {
     function onMove(e) {
@@ -148,6 +159,26 @@ window.AboutMascot = function AboutMascot({ accent }) {
     return () => window.removeEventListener('mousemove', onMove);
   }, []);
 
+  const handleClick = useCallback(() => {
+    if (playing.current) return;
+    playing.current = true;
+    let elapsed = 0;
+    ABOUT_ANIM.forEach((frame, i) => {
+      setTimeout(() => {
+        setAnimSrc(frame.src);
+        setBubbleText(ABOUT_BUBBLES[i]);
+        setBubbleKey(k => k + 1);
+      }, elapsed);
+      elapsed += frame.duration;
+    });
+    setTimeout(() => {
+      setAnimSrc(null);
+      setBubbleText('Nice to meet you! 🌹');
+      setBubbleKey(k => k + 1);
+      playing.current = false;
+    }, elapsed);
+  }, []);
+
   const sparkles = [
     { left: '8%',  top: '14%', size: 22, delay: '0s' },
     { left: '82%', top: '8%',  size: 30, delay: '.6s' },
@@ -157,7 +188,7 @@ window.AboutMascot = function AboutMascot({ accent }) {
   ];
 
   return (
-    <div className="about-mascot" ref={stageRef}>
+    <div className="about-mascot" ref={stageRef} onClick={handleClick} style={{cursor:'pointer'}}>
       <div className="about-disc" style={{ background: accent || 'var(--coral)' }}></div>
       {sparkles.map((s,i) => (
         <span key={i} className="sparkle"
@@ -172,11 +203,17 @@ window.AboutMascot = function AboutMascot({ accent }) {
           width: '100%', height: '100%',
           transform: `translate(${tilt.x}px, ${tilt.y}px)`,
           transition: 'transform .18s ease-out',
+          position: 'relative',
         }}>
-          <img src="images/net-roses.png" alt="Net with roses, winking" className="about-mascot-img" draggable="false"/>
+          <img src="images/net-roses.png" alt="Net with roses" className="about-mascot-img"
+            style={{ opacity: animSrc ? 0 : 1, transition: 'opacity .2s' }} draggable="false"/>
+          {ABOUT_ANIM.map(f => (
+            <img key={f.src} src={f.src} alt="" className="about-mascot-img about-mascot-img-anim"
+              style={{ opacity: animSrc === f.src ? 1 : 0, transition: 'opacity .2s' }} draggable="false"/>
+          ))}
         </div>
       </div>
-      <div className="about-bubble">Nice to meet you! 🌹</div>
+      <div className="about-bubble" key={bubbleKey}>{bubbleText}</div>
     </div>
   );
 };
@@ -578,7 +615,16 @@ window.Contact = function Contact() {
               </div>
             </div>
 
+
           </div>
+
+          <div className="claude-peek">
+            <div className="claude-bob">
+              <div className="claude-bubble">Yeah, he made me build this.</div>
+              <img src="images/claude-coffee.png" alt="Claude with coffee" className="claude-img" draggable="false" />
+            </div>
+          </div>
+
         </div>
       </div>
     </section>
