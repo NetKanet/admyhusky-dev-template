@@ -610,7 +610,7 @@ window.Contact = function Contact() {
               <div className="contact-side">
                 <div className="donate-box">
                   <img src="images/promptpay-qr.png" alt="PromptPay QR" className="donate-qr" />
-                  <p className="donate-label">☕ Support via PromptPay</p>
+                  <p className="donate-label">🫧 Claudy runs on tips, not tokens. 💸</p>
                 </div>
               </div>
             </div>
