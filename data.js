@@ -206,6 +206,7 @@ window.RESUME = {
       {
         name: '2026',
         books: [
+          { title: 'อยากเป็นคนธรรมดา ไม่ต้องอ่าน', author: 'CK Cheong', dateEnd: '2026-05-26', cover: 'https://storage.naiin.com/system/application/bookstore/resource/product/202603/700393/1000289785_front_XXL.jpg' },
           { title: 'Ghost Me Free WiFi หลอกได้แต่จ่ายด้วย', author: 'สีพรำ', dateEnd: '2026-03-31', cover: 'https://storage.naiin.com/system/application/bookstore/resource/product/202509/686064/1000285791_front_XXL.jpg' },
           { title: 'เฮาส์เมด : The Housemaid', author: 'Freida McFadden (ฟรีดา แมกแฟดเดน)', dateEnd: '2026-03-17', cover: 'https://storage.naiin.com/system/application/bookstore/resource/product/202408/619675/1000274529_front_XXL.jpg' },
         ],
