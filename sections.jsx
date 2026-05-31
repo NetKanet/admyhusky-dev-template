@@ -67,8 +67,8 @@ window.Hero = function Hero({ bubble, accent }) {
                 </div>
               ))}
               {R.skills.filter(g => g.learning).flatMap(g => g.items).filter(s => s.icon).map(s => (
-                <div className="hero-tech-icon hero-tech-learning bouncy" key={s.name} data-name={s.name + ' (learning)'}
-                  onMouseEnter={() => { setTechHover(s.name + ' 📖 learning'); setLearningHover(true); }}
+                <div className="hero-tech-icon hero-tech-learning bouncy" key={s.name} data-name={s.name + ' (building)'}
+                  onMouseEnter={() => { setTechHover(s.name + ' 🛠️ building an app'); setLearningHover(true); }}
                   onMouseLeave={() => { setTechHover(null); setLearningHover(false); }}>
                   <img src={s.icon} alt={s.name} />
                 </div>
@@ -107,6 +107,9 @@ window.About = function About({ accent }) {
             {P.chips.map(c => <span key={c.label} className="about-chip">{c.label}</span>)}
           </div>
         )}
+        <a className="btn bouncy" href="kanet_resume_full_version.html" target="_blank" rel="noopener" style={{marginTop: 16, display:'inline-block'}}>
+          📄 View Full Resume
+        </a>
       </div>
     </div>
   );
