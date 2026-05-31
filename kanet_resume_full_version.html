@@ -96,6 +96,7 @@
     letter-spacing: -0.3px;
   }
 
+
   .sidebar-role {
     font-size: 7.5pt;
     color: var(--accent-mid);
@@ -419,8 +420,52 @@
   /* ===== PRINT ===== */
   @media print {
     body { background: none; padding: 0; }
-    .page { box-shadow: none; max-height: 297mm; overflow: hidden; }
-    .sidebar-wrap { display: flex; flex-direction: column; }
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      max-height: 297mm;
+      display: grid;
+      grid-template-columns: 68mm 1fr;
+      box-shadow: none;
+      overflow: hidden;
+    }
+    .sidebar-wrap {
+      display: flex;
+      flex-direction: column;
+      grid-column: 1;
+      background: var(--ink);
+      color: #e2e8f0;
+      padding: 18mm 10mm 12mm;
+      gap: 14px;
+    }
+    .side-header, .side-skills, .side-edu, .side-contact {
+      order: unset;
+      background: var(--ink);
+      color: #e2e8f0;
+      padding: 0;
+      flex-grow: 0;
+    }
+    .side-header .avatar-area {
+      display: block;
+      text-align: center;
+    }
+    .side-header .avatar-circle { margin-bottom: 8px; }
+    .side-header .sidebar-name {
+      font-size: 11pt;
+      white-space: nowrap;
+      text-align: center;
+    }
+    .side-header .sidebar-name .name-break { display: none; }
+    .side-header .sidebar-role { text-align: center; }
+    .side-edu .side-section-title { color: var(--accent-mid); border-bottom-color: rgba(255,255,255,0.1); }
+    .side-edu .side-section-title::after { display: none; }
+    .side-edu .edu-name { color: #fff; font-size: 8pt; }
+    .side-edu .edu-detail { color: #94a3b8; font-size: 7.5pt; }
+    .side-edu .edu-year { color: var(--accent-mid); background: none; border: none; padding: 0; font-size: 7pt; display: block; }
+    .main {
+      grid-column: 2;
+      padding: 18mm 14mm 12mm;
+    }
   }
 </style>
 </head>
@@ -433,7 +478,7 @@
         <div class="avatar-circle">K</div>
         <div class="avatar-info">
           <div class="sidebar-name">Kanet <span class="name-break"><br></span>Kampiranon</div>
-          <div class="sidebar-role">Backend Engineer</div>
+          <div class="sidebar-role">Software Engineer</div>
         </div>
       </div>
     </div>
