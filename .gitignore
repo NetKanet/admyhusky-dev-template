@@ -10,5 +10,5 @@ node_modules/
 *.log
 Thumbs.db
 
-# Claude Code local settings (machine-specific)
-.claude/settings.local.json
+# Claude Code (machine-specific)
+.claude/
