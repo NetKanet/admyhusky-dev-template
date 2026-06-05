@@ -206,6 +206,7 @@ window.RESUME = {
       {
         name: '2026',
         books: [
+          { title: 'Only Time Will Tell', author: 'วิไลรัตน์ เอมเอี่ยม', dateEnd: '2026-06-05', cover: 'https://storage.naiin.com/system/application/bookstore/resource/product/202409/624239/1000275760_front_XXL.jpg?v=1738635364' },
           { title: 'แมวสวมบูท : Le Chat Botté', author: 'Charles Perrault (ชาร์ลส์ แปร์โรต์)', dateEnd: '2026-05-30', cover: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRIIXePUuOrKN9CLU0UTeasxqnacL895WCRw&s' },
           { title: 'อยากเป็นคนธรรมดา ไม่ต้องอ่าน', author: 'CK Cheong', dateEnd: '2026-05-26', cover: 'https://storage.naiin.com/system/application/bookstore/resource/product/202603/700393/1000289785_front_XXL.jpg' },
           { title: 'Ghost Me Free WiFi หลอกได้แต่จ่ายด้วย', author: 'สีพรำ', dateEnd: '2026-03-31', cover: 'https://storage.naiin.com/system/application/bookstore/resource/product/202509/686064/1000285791_front_XXL.jpg' },
