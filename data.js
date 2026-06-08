@@ -253,6 +253,10 @@ window.RESUME = {
     ],
   },
 
+  // My Shelf — live bookshelf data fetched from Supabase.
+  // Static fallback shown until fetchShelfBooks() resolves.
+  // books: updated dynamically — see fetchShelfBooks() below
+
   // TCG Collection — add entries when you get new decks/achievements
   tcg: [
     {
@@ -272,3 +276,68 @@ window.RESUME = {
     },
   ],
 };
+
+/* ------------------------------------------------------------------
+   My Shelf — live bookshelf integration
+   Fetches Net's finished books from Supabase via the read-only view
+   `public_finished_shelf`. The view exposes ONLY finished books of the
+   profile owner and ONLY safe columns (no review) — so it is safe to
+   ship the publishable key here. anon has no direct read on user_books.
+------------------------------------------------------------------- */
+
+const MYSHELF_SUPABASE_URL = 'https://xizxeuztzzyhqhalonxl.supabase.co';
+const MYSHELF_SUPABASE_ANON_KEY = 'sb_publishable_nyyKxAHJo7bn3gkDJo1Nmg_XwNVu3v7';
+
+window.fetchShelfBooks = async function () {
+  if (!MYSHELF_SUPABASE_URL || MYSHELF_SUPABASE_URL === 'YOUR_SUPABASE_URL') return;
+  try {
+    const res = await fetch(
+      `${MYSHELF_SUPABASE_URL}/rest/v1/public_finished_shelf` +
+        `?select=*&order=date_finished.desc`,
+      {
+        headers: {
+          apikey: MYSHELF_SUPABASE_ANON_KEY,
+          Authorization: `Bearer ${MYSHELF_SUPABASE_ANON_KEY}`,
+        },
+      }
+    );
+    if (!res.ok) return; // HTTP/network error → keep static fallback
+    const rows = await res.json();
+    if (!Array.isArray(rows)) return; // unexpected shape → keep static fallback
+    // NOTE: an empty array is a VALID live result (no finished books yet) and
+    // intentionally replaces the static list with the empty state below.
+
+    // The view is flat (title/author/cover_url/date_finished/rating).
+    // Group by finish year (newest year first).
+    const byYear = {};
+    for (const row of rows) {
+      const year = row.date_finished ? String(row.date_finished).substring(0, 4) : 'Unknown';
+      if (!byYear[year]) byYear[year] = [];
+      byYear[year].push({
+        title: row.title,
+        author: row.author || '',
+        dateEnd: row.date_finished || '',
+        cover: row.cover_url || '',
+        rating: row.rating != null ? Number(row.rating) : null,
+      });
+    }
+
+    const categories = Object.keys(byYear)
+      .sort((a, b) => b.localeCompare(a))
+      .map((year) => ({ name: year, books: byYear[year] }));
+
+    window.RESUME.books = { previewLimit: 3, categories };
+
+    // Tell the React app to re-render the bookshelf with live data.
+    window.dispatchEvent(new CustomEvent('shelf:updated'));
+  } catch (_) {
+    // Silently fall back to static data already in window.RESUME.books
+  }
+};
+
+// Auto-fetch on load
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', window.fetchShelfBooks);
+} else {
+  window.fetchShelfBooks();
+}
